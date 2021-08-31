@@ -9,8 +9,8 @@ describe('Recipe', () => {
   let ingredients;
 
   beforeEach(() => {
-    ingredients = new IngredientsLibrary(
-      [{
+    ingredients = [
+      {
         "id": 1032009,
         "name": "dried red chili",
         "estimatedCostInCents": 1015
@@ -19,8 +19,22 @@ describe('Recipe', () => {
         "id": 2047,
         "name": "salt",
         "estimatedCostInCents": 280
-      }]
-    )
+      },
+      {
+        "id": 1022020,
+        "name": "garlic powder",
+        "estimatedCostInCents": 344
+      },
+      {
+        "id": 6168,
+        "name": "tabasco sauce",
+        "estimatedCostInCents": 859
+      },
+      {
+        "id": 9176,
+        "name": "mangoes",
+        "estimatedCostInCents": 425
+      }];
 
     recipe = new Recipe(
       [{
