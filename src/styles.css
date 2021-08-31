@@ -17,7 +17,7 @@ header {
   display: flex;
   min-height: 98vh;
   width: 100%;
-  background-image: url("../data/food.jpeg");
+  background-image: url("./assets/food.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -97,7 +97,7 @@ ul {
   flex-direction: column;
   flex: .75;
   width: 100%;
-  min height: 90%;
+  min-height: 90%;
   margin: 30px 10px 60px 20px;
   padding-top: 20px;
   background-color: #69D6D0;
