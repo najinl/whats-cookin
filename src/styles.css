@@ -28,6 +28,11 @@ h1 {
   font-size: 24px;
   /* border: 4px solid green; */
 }
+
+p {
+  align-self: center;
+  margin-top: 4px;
+}
 .search-wrapper {
   display: flex;
   align-items: center;
@@ -98,7 +103,7 @@ ul {
   flex: .75;
   width: 100%;
   min-height: 90%;
-  margin: 30px 10px 60px 20px;
+  margin: 30px 10px 56px 20px;
   padding-top: 20px;
   background-color: #69D6D0;
   border-radius: 12px;
@@ -106,8 +111,13 @@ ul {
 }
 
 .right-pane {
-  display: flex;
+  /* display: flex;
+  flex-wrap: wrap; */
+  /* justify-content: space-evenly;
+  align-items: flex-start; */
+  /* flex-direction: column; */
   flex: 3;
+  /* border: 3px solid green; */
 }
 
 .search-recipe {
@@ -160,6 +170,81 @@ ul {
 .input-search {
   height: 30px;
   width: 200px;
+}
+
+.all-recipes {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 22px 20px 40px 10px;
+  max-height: 920px;
+  /* border: 3px solid red; */
+}
+
+.recipe-card {
+  display: flex;
+  align-content: flex-start;
+  flex-direction: column;
+  height: 200px;
+  width: 240px;
+  background-color: #69D6D0;
+  border-radius: 10px;
+  margin: 10px auto;
+  /* padding-bottom: px; */
+  /* border: 3px solid red; */
+}
+
+.recipe-summary {
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; */
+  border: 3px solid red;
+
+}
+
+.recipe-img {
+  align-self: center;
+  margin-top: 20px;
+  border-radius: 10px;
+  height: 50%;
+  width: 80%;
+}
+
+.recipe-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0px 10px 5px 0px;
+  /* border: 3px solid blue; */
+}
+
+.like-btn, .remove-btn, .add-btn, .unlike-btn {
+  background-image: url(./assets/black-heart.svg);
+  background-color: #69D6D0;
+  background-size: contain;
+  background-position: center;
+  border-radius: 49%;
+  width: 30px;
+  height: 28px;
+  border: none;
+}
+
+.unlike-btn {
+  background-image: url(./assets/red-heart.svg);
+  width: 27px;
+  height: 27px;
+}
+
+.remove-btn {
+  background-image: url(./assets/remove.svg);
+  width: 27px;
+  height: 27px;
+}
+
+.add-btn {
+  background-image: url(./assets/add.svg);
+  width: 27px;
+  height: 27px;
 }
 
 .hidden {
