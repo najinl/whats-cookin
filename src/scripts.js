@@ -1,24 +1,36 @@
 import './styles.css';
-import apiCalls from './apiCalls';
-import './assets/burger.png';
-// import burger.png from './assets'
-import './assets/favorite.svg';
-import './assets/fridge.svg';
-import './assets/home.svg';
-import './assets/list.svg';
-import './assets/search.svg';
+import RecipeRepository from './classes/RecipeRepository'
+import { fetchApiData } from './apiCalls';
+import burger from './images/burger.png';
+import './images/favorite.svg';
+import './images/fridge.svg';
+import './images/home.svg';
+import './images/list.svg';
+import './images/search.svg';
 
 console.log('Hello world');
 
 
+let recipeRepo;
+const createRecipeRepo = () => {
+  fetchApiData('recipes')
+    .then(data => {
+      recipeRepo = data.recipeData;
+      console.log(recipeRepo[0]);
+    })
+};
 
 let homeNavBtn = document.getElementById('homeNav');
 let favNavBtn = document.getElementById('favNav');
 let listNavBtn = document.getElementById('listNav');
-let recipeCard = document.getElementById('recipeCard');
+let recipeLikeBtns = document.getElementsByClassName('btn');
+
 
 window.addEventListener('load', (e) => {
   addClass(homeNavBtn, 'hidden');
+  createRecipeRepo()
+  console.log(typeof(recipeRepo));
+  // console.log(recipeCards);
 })
 
 homeNavBtn.addEventListener('click', function() {
@@ -37,19 +49,28 @@ listNavBtn.addEventListener('click', function() {
   addClass(listNavBtn, 'hidden');
   removeClass(homeNavBtn, 'hidden')
   removeClass(favNavBtn, 'hidden')
-})
+});
 
-recipeContainer.addEventListener('click', function(e) {
-  if(e.target.classList.contains('like-btn')) {
-    e.target.classList.add('unlilke-btn');
+[...recipeLikeBtns].forEach((action) => {
+  action.addEventListener('click', function(e) {
+  // let actionBtns = recipeActions.children[2]
+  if(e.target.classList.contains('like-btn') && e.target.classList.contains('unlike-btn')) {
     e.target.classList.remove('like-btn');
+  } else {
+    e.target.classList.add('like-btn');
   }
 })
 
-const addClass = (element, classList) => {
+// function displayAllRecipes (allRecipes) {
+//   let recipeContainer = document.querySelector('.all-recipes');
+//
+});
+
+
+function addClass(element, classList) {
   element.classList.add(classList);
 }
 
-const removeClass = (element, classList) => {
+function removeClass (element, classList) {
   element.classList.remove(classList);
 }

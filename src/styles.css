@@ -17,7 +17,7 @@ header {
   display: flex;
   min-height: 98vh;
   width: 100%;
-  background-image: url("./assets/food.jpg");
+  background-image: url("./images/food.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -218,8 +218,19 @@ ul {
   /* border: 3px solid blue; */
 }
 
-.like-btn, .remove-btn, .add-btn, .unlike-btn {
-  background-image: url(./assets/black-heart.svg);
+.unlike-btn {
+  background-image: url(./images/red-heart.svg);
+  width: 27px;
+  height: 27px;
+  background-color: #69D6D0;
+  background-size: contain;
+  background-position: center;
+  border-radius: 49%;
+  border: none;
+}
+
+.like-btn {
+  background-image: url(./images/black-heart.svg);
   background-color: #69D6D0;
   background-size: contain;
   background-position: center;
@@ -229,22 +240,26 @@ ul {
   border: none;
 }
 
-.unlike-btn {
-  background-image: url(./assets/red-heart.svg);
-  width: 27px;
-  height: 27px;
-}
-
 .remove-btn {
-  background-image: url(./assets/remove.svg);
+  background-image: url(./images/remove.svg);
   width: 27px;
   height: 27px;
+  background-color: #69D6D0;
+  background-size: contain;
+  background-position: center;
+  border-radius: 49%;
+  border: none;
 }
 
 .add-btn {
-  background-image: url(./assets/add.svg);
+  background-image: url(./images/add.svg);
   width: 27px;
   height: 27px;
+  background-color: #69D6D0;
+  background-size: contain;
+  background-position: center;
+  border-radius: 49%;
+  border: none;
 }
 
 .hidden {
