@@ -1,5 +1,6 @@
 import './styles.css';
-import './images/burger.png';
+import RecipeRepository from './classes/RecipeRepository'
+import burger from './images/burger.png';
 import './images/favorite.svg';
 import './images/fridge.svg';
 import './images/home.svg';
@@ -9,6 +10,7 @@ import { fetchUsers, fetchIngredients, fetchRecipes} from './apiCalls.js'
 import IngredientsLibrary from './classes/IngredientsRepository.js'
 import Recipe from './classes/Recipe.js'
 import RecipeRepository from './classes/RecipeRepository'
+
 
 
 //global variables, instantiations of classes, holds info
@@ -48,11 +50,20 @@ const renderinfo = () => {
   console.log(ingredients)
 }
 
+let recipeRepo;
+const createRecipeRepo = () => {
+  fetchApiData('recipes')
+    .then(data => {
+      recipeRepo = data.recipeData;
+      console.log(recipeRepo[0]);
+    })
+};
 
 let homeNavBtn = document.getElementById('homeNav');
 let favNavBtn = document.getElementById('favNav');
 let listNavBtn = document.getElementById('listNav');
-let recipeCard = document.getElementById('recipeCard');
+let recipeLikeBtns = document.getElementsByClassName('btn');
+
 
 
 
@@ -77,20 +88,29 @@ listNavBtn.addEventListener('click', function() {
   addClass(listNavBtn, 'hidden');
   removeClass(homeNavBtn, 'hidden')
   removeClass(favNavBtn, 'hidden')
-})
+});
 
-recipeContainer.addEventListener('click', function(e) {
-  if(e.target.classList.contains('like-btn')) {
-    e.target.classList.add('unlilke-btn');
+[...recipeLikeBtns].forEach((action) => {
+  action.addEventListener('click', function(e) {
+  // let actionBtns = recipeActions.children[2]
+  if(e.target.classList.contains('like-btn') && e.target.classList.contains('unlike-btn')) {
     e.target.classList.remove('like-btn');
+  } else {
+    e.target.classList.add('like-btn');
   }
 })
 
-const addClass = (element, classList) => {
+// function displayAllRecipes (allRecipes) {
+//   let recipeContainer = document.querySelector('.all-recipes');
+//
+});
+
+
+function addClass(element, classList) {
   element.classList.add(classList);
 }
 
-const removeClass = (element, classList) => {
+function removeClass (element, classList) {
   element.classList.remove(classList);
 }
 

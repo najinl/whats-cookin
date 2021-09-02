@@ -218,7 +218,18 @@ ul {
   /* border: 3px solid blue; */
 }
 
-.like-btn, .remove-btn, .add-btn, .unlike-btn {
+.unlike-btn {
+  background-image: url(./images/red-heart.svg);
+  width: 27px;
+  height: 27px;
+  background-color: #69D6D0;
+  background-size: contain;
+  background-position: center;
+  border-radius: 49%;
+  border: none;
+}
+
+.like-btn {
   background-image: url(./images/black-heart.svg);
   background-color: #69D6D0;
   background-size: contain;
@@ -229,22 +240,26 @@ ul {
   border: none;
 }
 
-.unlike-btn {
-  background-image: url(./images/red-heart.svg);
-  width: 27px;
-  height: 27px;
-}
-
 .remove-btn {
   background-image: url(./images/remove.svg);
   width: 27px;
   height: 27px;
+  background-color: #69D6D0;
+  background-size: contain;
+  background-position: center;
+  border-radius: 49%;
+  border: none;
 }
 
 .add-btn {
   background-image: url(./images/add.svg);
   width: 27px;
   height: 27px;
+  background-color: #69D6D0;
+  background-size: contain;
+  background-position: center;
+  border-radius: 49%;
+  border: none;
 }
 
 .hidden {
