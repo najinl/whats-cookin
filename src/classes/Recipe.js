@@ -2,12 +2,12 @@ import IngredientsLibrary from './ingredientsRepository';
 
 class Recipe {
   constructor(recipe, ingredientsInfo) {
-    this.id = recipe[0].id;
-    this.image = recipe[0].image;
-    this.ingredientsData = recipe[0].ingredients;
-    this.instructions = recipe[0].instructions;
-    this.name = recipe[0].name;
-    this.tags = recipe[0].tags;
+    this.id = recipe.id;
+    this.image = recipe.image;
+    this.ingredientsData = recipe.ingredients;
+    this.instructions = recipe.instructions;
+    this.name = recipe.name;
+    this.tags = recipe.tags;
     this.ingredientNames = [];
     this.ingredientsLibrary = new IngredientsLibrary(ingredientsInfo);
   }

@@ -37,7 +37,7 @@ describe('Recipe', () => {
       }];
 
     recipe = new Recipe(
-      [{
+      {
       "id": 988243,
       "image": "https://spoonacular.com/recipeImages/988243-556x370.jpg",
       "ingredients": [
@@ -77,7 +77,7 @@ describe('Recipe', () => {
         "main dish",
         "dinner"
       ]
-    }], ingredients)
+    }, ingredients)
   })
 
   it('Should be a function', () => {
