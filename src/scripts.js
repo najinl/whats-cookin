@@ -1,5 +1,4 @@
 import './styles.css';
-import RecipeRepository from './classes/RecipeRepository'
 import burger from './images/burger.png';
 import './images/favorite.svg';
 import './images/fridge.svg';
@@ -33,12 +32,10 @@ const parseData = (data) => {
 
 const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
   //math random for random user, do not have user class yet
-  let i = Math.floor(Math.random()*42);
+  let i = Math.floor(Math.random()*userDataArray.length);
 
   ingredients = new IngredientsLibrary(ingredientDataArray)
   recipeRepository = new RecipeRepository(recipeDataArray)
-
-  //recipe is weird because its a single recipe. how get? should it get instantiated later?
   recipe = recipeDataArray.map(recipe => {
     return new Recipe(recipe, ingredients)
   })
@@ -46,24 +43,17 @@ const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
 
 
 const renderinfo = () => {
-  console.log(recipe)
+  console.log(recipe[0].image)
   console.log(ingredients)
+  showCards()
 }
 
-let recipeRepo;
-const createRecipeRepo = () => {
-  fetchApiData('recipes')
-    .then(data => {
-      recipeRepo = data.recipeData;
-      console.log(recipeRepo[0]);
-    })
-};
 
 let homeNavBtn = document.getElementById('homeNav');
 let favNavBtn = document.getElementById('favNav');
 let listNavBtn = document.getElementById('listNav');
-let recipeLikeBtns = document.getElementsByClassName('btn');
-
+var recipeLikeBtns = document.getElementsByClassName('btn');
+let recipeContainer = document.getElementById('recipeContainer');
 
 
 
@@ -90,20 +80,39 @@ listNavBtn.addEventListener('click', function() {
   removeClass(favNavBtn, 'hidden')
 });
 
-[...recipeLikeBtns].forEach((action) => {
-  action.addEventListener('click', function(e) {
-  // let actionBtns = recipeActions.children[2]
-  if(e.target.classList.contains('like-btn') && e.target.classList.contains('unlike-btn')) {
-    e.target.classList.remove('like-btn');
-  } else {
-    e.target.classList.add('like-btn');
+
+function showCards() {
+  recipe.map(oneRecipe => 
+    { 
+    const recipecard = document.createElement('div');
+    recipecard.classList = 'recipe-card';
+    
+    let cardContent = 
+    `<section class="recipe-card">
+      <img class="recipe-img" src="${oneRecipe.image}"/>
+      <p>${oneRecipe.name}</p>
+      <div class="recipe-actions">
+        <button class="btn remove-btn"></button>
+        <button class="btn unlike-btn like-btn"></button>
+      </div>
+    </section>`
+
+    recipeContainer.innerHTML += cardContent
+    recipeLikeBtns = document.getElementsByClassName('btn')
+  })
+
+}
+
+
+recipeContainer.addEventListener('click', function(e) {
+  if(e.target.closest('button')) {
+    if(e.target.classList.contains('like-btn') && e.target.classList.contains('unlike-btn')) {
+      e.target.classList.remove('like-btn')
+    } else {
+      e.target.classList.add('like-btn')
+    }
   }
 })
-
-// function displayAllRecipes (allRecipes) {
-//   let recipeContainer = document.querySelector('.all-recipes');
-//
-});
 
 
 function addClass(element, classList) {
@@ -113,5 +122,4 @@ function addClass(element, classList) {
 function removeClass (element, classList) {
   element.classList.remove(classList);
 }
-
 
