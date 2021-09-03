@@ -5,15 +5,16 @@ import './images/fridge.svg';
 import './images/home.svg';
 import './images/list.svg';
 import './images/search.svg';
-import { fetchUsers, fetchIngredients, fetchRecipes} from './apiCalls.js'
-import IngredientsLibrary from './classes/IngredientsRepository.js'
-import Recipe from './classes/Recipe.js'
-import RecipeRepository from './classes/RecipeRepository'
+import { fetchUsers, fetchIngredients, fetchRecipes} from './apiCalls.js';
+import IngredientsLibrary from './classes/IngredientsRepository.js';
+import Recipe from './classes/Recipe.js';
+import RecipeRepository from './classes/RecipeRepository';
+import User from './classes/User';
 
 
 
 //global variables, instantiations of classes, holds info
-let ingredients, recipeRepository, recipe 
+let ingredients, recipeRepository, recipe, user
 
 
 const fetchData = () => {
@@ -32,13 +33,13 @@ const parseData = (data) => {
 
 const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
   //math random for random user, do not have user class yet
-  let i = Math.floor(Math.random()*userDataArray.length);
-
+  let i = Math.floor(Math.random() * userDataArray.length);
   ingredients = new IngredientsLibrary(ingredientDataArray)
   recipeRepository = new RecipeRepository(recipeDataArray)
   recipe = recipeDataArray.map(recipe => {
     return new Recipe(recipe, ingredients)
   })
+  user = new User(userDataArray[i], recipeRepository);
 }
 
 
@@ -82,13 +83,13 @@ listNavBtn.addEventListener('click', function() {
 
 
 function showCards() {
-  recipe.map(oneRecipe => 
-    { 
+  recipe.map(oneRecipe =>
+    {
     const recipecard = document.createElement('div');
     recipecard.classList = 'recipe-card';
-    
-    let cardContent = 
-    `<section class="recipe-card">
+
+    let cardContent =
+    `<section class="recipe-card" id="${oneRecipe.id}">
       <img class="recipe-img" src="${oneRecipe.image}"/>
       <p>${oneRecipe.name}</p>
       <div class="recipe-actions">
@@ -98,20 +99,42 @@ function showCards() {
     </section>`
 
     recipeContainer.innerHTML += cardContent
-    recipeLikeBtns = document.getElementsByClassName('btn')
+    // recipeLikeBtns = document.getElementsByClassName('btn')
   })
+};
 
-}
-
+//-----WE SHOULD DELETE THIS SOON...BUT I'M NOT READY YET!#HIGHANXIETY-----
+// recipeContainer.addEventListener('click', function(e) {
+//   let recipeID = e.target.closest('.recipe-card').id
+//   if(e.target.closest('button')) {
+//     if(e.target.classList.contains('like-btn') && e.target.classList.contains('unlike-btn')) {
+//       e.target.classList.remove('like-btn')
+//       favoritedRecipes.push(recipeID);
+//     } else {
+//       e.target.classList.add('like-btn')
+//       favoritedRecipes.forEach((element, index) => {
+//             if(element === recipeID) {
+//               favoritedRecipes.splice(index, 1);
+//             }
+//           })
+//     }
+//   }
+//   console.log(favoritedRecipes)
+// })
 
 recipeContainer.addEventListener('click', function(e) {
+  let recipeID = e.target.closest('.recipe-card').id;
+  let favoritedRecipes = user.myFavorites;
   if(e.target.closest('button')) {
     if(e.target.classList.contains('like-btn') && e.target.classList.contains('unlike-btn')) {
       e.target.classList.remove('like-btn')
+        user.favoriteRecipes(recipeID);
     } else {
       e.target.classList.add('like-btn')
+      user.unfavoriteRecipes(favoritedRecipes, recipeID);
     }
   }
+  console.log(user.myFavorites)
 })
 
 
@@ -122,4 +145,3 @@ function addClass(element, classList) {
 function removeClass (element, classList) {
   element.classList.remove(classList);
 }
-
