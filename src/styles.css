@@ -54,6 +54,7 @@ button {
   cursor: pointer;
 }
 
+
 ul {
    list-style-type: none;
    font-size: 17px;
@@ -216,8 +217,13 @@ ul {
 .recipe-actions {
   display: flex;
   justify-content: flex-end;
+  vertical-align: bottom;
   margin: 0px 10px 5px 0px;
   /* border: 3px solid blue; */
+}
+
+.cook-me {
+  margin-right: 100px;
 }
 
 .unlike-btn {
@@ -262,6 +268,37 @@ ul {
   background-position: center;
   border-radius: 49%;
   border: none;
+}
+
+
+.modal-container {
+  /* display: none; */
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  position: fixed;
+  top: 0;
+  left: 0; 
+  height: 200px;
+  width: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-container.show {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.modal {
+  /* display: none; */
+  background-color: #fff;
+  width: 600px;
+  max-width: 100px;
+  padding: 30px 50px;
+  border-radius: 10px;
 }
 
 .hidden {
