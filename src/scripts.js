@@ -13,6 +13,7 @@ import User from './classes/User';
 
 
 
+
 //global variables, instantiations of classes, holds info
 let ingredients, recipeRepository, recipe, user
 
@@ -55,7 +56,7 @@ let favNavBtn = document.getElementById('favNav');
 let listNavBtn = document.getElementById('listNav');
 var recipeLikeBtns = document.getElementsByClassName('btn');
 let recipeContainer = document.getElementById('recipeContainer');
-
+let modalContainer = document.getElementById('modalContainer')
 
 
 window.addEventListener('load', (e) => {
@@ -82,6 +83,7 @@ listNavBtn.addEventListener('click', function() {
 });
 
 
+
 function showCards() {
   recipe.map(oneRecipe =>
     {
@@ -93,13 +95,14 @@ function showCards() {
       <img class="recipe-img" src="${oneRecipe.image}"/>
       <p>${oneRecipe.name}</p>
       <div class="recipe-actions">
+        <button class="cook-me" id="cookMe">Cook Me!</button>
         <button class="btn remove add"></button>
         <button class="btn unfavorite favorite"></button>
       </div>
-    </section>`
+    </section>
+  `
 
     recipeContainer.innerHTML += cardContent
-    // recipeLikeBtns = document.getElementsByClassName('btn')
   })
 };
 
@@ -127,6 +130,10 @@ recipeContainer.addEventListener('click', function(e) {
   let targetBtn = e.target;
   let recipeID = targetBtn.closest('.recipe-card').id;
   let favoritedRecipes = user.myFavorites;
+
+
+  
+
   let likedRecipes = user.myList;
   if(targetBtn.closest('button')) {
     if(targetBtn.classList.contains('favorite')) {
@@ -139,8 +146,22 @@ recipeContainer.addEventListener('click', function(e) {
     } else {
     removeFromCookList(targetBtn, likedRecipes, recipeID);
     }
+
+
+  //   if(e.target.closest('#cookMe')) {
+  //   recipe.map(oneRecipe => {
+  //     if(oneRecipe === recipeID) {
+  //       makeModel(oneRecipe)
+  //       let modalContainer = document.getElementById('modalContainer')
+  //       modalContainer.classList.add('show')
+  //     }
+  //   })
+  //   makeModel(recipeID)
+  //   let modalContainer = document.getElementById('modalContainer')
+  //   modalContainer.classList.add('show')
+  // }
   }
-  // console.log(user.myFavorites)
+  console.log(user.myFavorites)
   // console.log(user.myList)
 })
 
@@ -163,6 +184,24 @@ function removeFromCookList(targetBtn, likedRecipes, id) {
   targetBtn.classList.add('add')
   user.removeFromMyList(likedRecipes, id)
 }
+
+
+
+function makeModel(recipeID) {
+  const newModal = document.createElement('div');
+
+  let modal = 
+    `<div class="modal-container" id="modalContainer"> 
+      <div class="modal" id="modal">
+        <h1>${recipeID}</h1>
+        <p> blah blah blah</p>
+        <button id="closeModal">Close</button>
+      </div>
+    </div>`
+  
+    recipeContainer.innerHTML += modal
+}
+
 
 
 function addClass(element, classList) {
