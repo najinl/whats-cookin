@@ -35,6 +35,18 @@ unfavoriteRecipes(arrToFavorites, id) {
 favoriteRecipes(id) {
   this.myFavorites.push(id);
 }
+
+addToMyList(id){
+  this.myList.push(id);
+}
+
+removeFromMyList(arrToList, id){
+  arrToList.forEach((item, i) => {
+    if(item === id) {
+      return arrToList.splice(i, 1)
+    }
+  })
+}
 }
 
 export default User;

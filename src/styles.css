@@ -226,7 +226,8 @@ ul {
   margin-right: 100px;
 }
 
-.unlike-btn {
+
+.unfavorite {
   background-image: url(./images/red-heart.svg);
   width: 27px;
   height: 27px;
@@ -237,7 +238,7 @@ ul {
   border: none;
 }
 
-.like-btn {
+.favorite {
   background-image: url(./images/black-heart.svg);
   background-color: #69D6D0;
   background-size: contain;
@@ -248,7 +249,7 @@ ul {
   border: none;
 }
 
-.remove-btn {
+.remove {
   background-image: url(./images/remove.svg);
   width: 27px;
   height: 27px;
@@ -259,7 +260,7 @@ ul {
   border: none;
 }
 
-.add-btn {
+.add {
   background-image: url(./images/add.svg);
   width: 27px;
   height: 27px;

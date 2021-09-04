@@ -96,8 +96,8 @@ function showCards() {
       <p>${oneRecipe.name}</p>
       <div class="recipe-actions">
         <button class="cook-me" id="cookMe">Cook Me!</button>
-        <button class="btn remove-btn"></button>
-        <button class="btn unlike-btn like-btn" id="toggle"></button>
+        <button class="btn remove add"></button>
+        <button class="btn unfavorite favorite"></button>
       </div>
     </section>
   `
@@ -106,54 +106,84 @@ function showCards() {
   })
 };
 
-
+//---DELETED THE OLD "WE SHOULD DELETE THIS" IN THE 9/3/2020 PR OF FEAUTE/DOM-MANIPULATION-N AND REPLACED WITH THE BELOW REFACTORED EQUATION"
 //-----WE SHOULD DELETE THIS SOON...BUT I'M NOT READY YET!#HIGHANXIETY-----
 // recipeContainer.addEventListener('click', function(e) {
-//   let recipeID = e.target.closest('.recipe-card').id
-//   if(e.target.closest('button')) {
-//     if(e.target.classList.contains('like-btn') && e.target.classList.contains('unlike-btn')) {
-//       e.target.classList.remove('like-btn')
-//       favoritedRecipes.push(recipeID);
-//     } else {
-//       e.target.classList.add('like-btn')
-//       favoritedRecipes.forEach((element, index) => {
-//             if(element === recipeID) {
-//               favoritedRecipes.splice(index, 1);
-//             }
-//           })
-//     }
+// let targetBtn = e.target;
+// let recipeID = targetBtn.closest('.recipe-card').id;
+// let favoritedRecipes = user.myFavorites;
+// let likedRecipes = user.myList;
+// if(targetBtn.closest('button')) {
+//   if(targetBtn.classList.contains('favorite') && targetBtn.classList.contains('unfavorite')) {
+//     targetBtn.classList.remove('favorite')
+//       user.favoriteRecipes(recipeID);
+//   } else if(e.target.classList.contains('unfavorite') && !targetBtn.classList.contains('favorite')){
+//     targetBtn.classList.add('favorite')
+//     user.unfavoriteRecipes(favoritedRecipes, recipeID);
 //   }
-//   console.log(favoritedRecipes)
+// }
+//   console.log(e.target.closest('button'))
+//     console.log(favoritedRecipes)
 // })
 
 recipeContainer.addEventListener('click', function(e) {
-  let recipeID = e.target.closest('.recipe-card').id;
+  let targetBtn = e.target;
+  let recipeID = targetBtn.closest('.recipe-card').id;
   let favoritedRecipes = user.myFavorites;
-  if(e.target.closest('#toggle')) {
-    if(e.target.classList.contains('like-btn') && e.target.classList.contains('unlike-btn')) {
-      e.target.classList.remove('like-btn')
-        user.favoriteRecipes(recipeID);
+
+
+  
+
+  let likedRecipes = user.myList;
+  if(targetBtn.closest('button')) {
+    if(targetBtn.classList.contains('favorite')) {
+    addToFavorites(targetBtn, recipeID)
+    }
+    else if(targetBtn.classList.contains('unfavorite') && !targetBtn.classList.contains('favorite')) {
+    removeFromFavorites(targetBtn, favoritedRecipes, recipeID);
+    } else if(targetBtn.classList.contains('add') && targetBtn.classList.contains('remove')) {
+    addToCookList(targetBtn, recipeID);
     } else {
-      e.target.classList.add('like-btn')
-      user.unfavoriteRecipes(favoritedRecipes, recipeID);
-    } 
-  }
+    removeFromCookList(targetBtn, likedRecipes, recipeID);
+    }
 
-  if(e.target.closest('#cookMe')) {
-    // recipe.map(oneRecipe => {
-    //   if(oneRecipe === recipeID) {
-    //     makeModel(oneRecipe)
-    //     let modalContainer = document.getElementById('modalContainer')
-    //     modalContainer.classList.add('show')
-    //   }
-    // })
-    makeModel(recipeID)
-    let modalContainer = document.getElementById('modalContainer')
-    modalContainer.classList.add('show')
-  }
 
+  //   if(e.target.closest('#cookMe')) {
+  //   recipe.map(oneRecipe => {
+  //     if(oneRecipe === recipeID) {
+  //       makeModel(oneRecipe)
+  //       let modalContainer = document.getElementById('modalContainer')
+  //       modalContainer.classList.add('show')
+  //     }
+  //   })
+  //   makeModel(recipeID)
+  //   let modalContainer = document.getElementById('modalContainer')
+  //   modalContainer.classList.add('show')
+  // }
+  }
   console.log(user.myFavorites)
+  // console.log(user.myList)
 })
+
+function addToFavorites(targetBtn, id) {
+  targetBtn.classList.remove('favorite')
+  user.favoriteRecipes(id);
+};
+
+function removeFromFavorites(targetBtn, favoritedRecipes, id) {
+  targetBtn.classList.add('favorite')
+  user.unfavoriteRecipes(favoritedRecipes, id);
+}
+
+function addToCookList(targetBtn, id) {
+  targetBtn.classList.remove('add')
+  user.addToMyList(id);
+}
+
+function removeFromCookList(targetBtn, likedRecipes, id) {
+  targetBtn.classList.add('add')
+  user.removeFromMyList(likedRecipes, id)
+}
 
 
 
