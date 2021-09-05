@@ -18,6 +18,7 @@ import User from './classes/User';
 let ingredients, recipeRepository, recipe, user, displayRecipe, modalContainer, closeModalBtn
 
 
+
 const fetchData = () => {
   Promise.all([fetchUsers(), fetchIngredients(), fetchRecipes()])
     .then(data => parseData(data))
@@ -47,7 +48,7 @@ const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
 const renderinfo = () => {
   // console.log(recipe[0].image)
   // console.log(ingredients)
-  showCards()
+  showCards(recipe)
 }
 
 let homeNavBtn = document.getElementById('homeNav');
@@ -55,6 +56,32 @@ let favNavBtn = document.getElementById('favNav');
 let listNavBtn = document.getElementById('listNav');
 var recipeLikeBtns = document.getElementsByClassName('btn');
 let recipeContainer = document.getElementById('recipeContainer');
+let lunch = document.getElementById('lunch')
+let filterBtn = document.getElementById('filterBtn')
+
+filterBtn.addEventListener('click', (event) => {
+  getTags('check')
+})
+
+function getTags(name) {
+  let checkBox = document.querySelectorAll(`input[name="${name}"]:checked`)
+  let findChecks = document.querySelectorAll(`input[name="${name}"]:checked`).length
+  let checkedElements = [];
+  checkBox.forEach((checkbox) => {
+    checkedElements.push(checkbox.value)
+  }) 
+  let newRecipes = recipeRepository.filterByTags(checkedElements)
+
+  if(findChecks === 0) {
+    showCards(recipe)
+  } else {
+    clearCards()
+    showCards(newRecipes)
+  }
+}
+
+
+
 
 window.addEventListener('load', (e) => {
   addClass(homeNavBtn, 'hidden');
@@ -113,8 +140,8 @@ recipeContainer.addEventListener('click', function(e) {
 })
 
 
-function showCards() {
-  recipe.map(oneRecipe =>
+function showCards(data) {
+  data.map(oneRecipe =>
     {
     const recipecard = document.createElement('div');
     recipecard.classList = 'recipe-card';
@@ -132,6 +159,15 @@ function showCards() {
     recipeContainer.innerHTML += cardContent
   })
 };
+
+function clearCards() {
+    let removeElement = document.getElementById('recipeContainer')
+    while (removeElement.firstChild) {
+      removeElement.removeChild(removeElement.firstChild);
+    }
+  //  removeElement.removeChild(recipeCard)
+  }
+
 
 function addToFavorites(targetBtn, id) {
   targetBtn.classList.remove('favorite')
