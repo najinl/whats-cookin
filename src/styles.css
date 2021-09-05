@@ -33,7 +33,9 @@ h1 {
 p {
   align-self: center;
   margin-top: 4px;
+  fond-size: 14px;
 }
+
 .search-wrapper {
   display: flex;
   align-items: center;
@@ -146,7 +148,7 @@ ul {
   height: 40%;
 }
 
-.filter-btn {
+.filter-btn, .cook-me {
   width: 50%;
   align-self: center;
   background-color: #C4C4C4;
@@ -192,7 +194,8 @@ ul {
   width: 270px;
   background-color: #69D6D0;
   border-radius: 10px;
-  margin: 10px auto;
+  /* margin: 10px auto; */
+  margin: 4px auto 4px auto;
   text-align: center;
   /* padding-bottom: px; */
   /* border: 3px solid red; */
@@ -214,16 +217,24 @@ ul {
   width: 80%;
 }
 
+.modal-recipe-img { /*<---Nadia playing. Think we might need to adjust after instructions are added as we want*/
+  height: 5%;
+  width: 100%
+}
+
 .recipe-actions {
   display: flex;
   justify-content: flex-end;
   vertical-align: bottom;
-  margin: 0px 10px 5px 0px;
+  /* margin: 0px 10px 0px 0px; */
+  margin: auto;
   /* border: 3px solid blue; */
 }
 
 .cook-me {
-  margin-right: 100px;
+  margin: 0px 80px 0px 0px;
+  width: 40%;
+  font-size: 14px;
 }
 
 
@@ -275,16 +286,16 @@ ul {
 .modal-container {
   /* display: none; */
   /* background-color: rgba(0, 0, 0, 0.3); */
-  position: fixed;
-  top: 0;
-  left: 0; 
-  height: 200px;
+  /* position: fixed; */
+  top: 20%; /*<----changed from 0 to 20%*/
+  left: 0;
+  height: 300px;
   width: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: fixed;
-  opacity: 0;
+  opacity: 0; /*<----modal is hidden*/
   pointer-events: none;
 }
 
@@ -296,8 +307,9 @@ ul {
 .modal {
   /* display: none; */
   background-color: #fff;
-  width: 600px;
-  max-width: 100px;
+  width: auto;
+  /* width: 600px; <----Janika's*/
+  max-width: 600px;
   padding: 30px 50px;
   border-radius: 10px;
 }
