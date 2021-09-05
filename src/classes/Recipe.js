@@ -26,7 +26,8 @@ class Recipe {
   }
 
   calculateCost() {
-    let costInCents = this.ingredientsLibrary.ingredientsLibrary.reduce((num, ingredient) => {
+    console.log(this.ingredientsLibrary)
+   let costInCents = this.ingredientsLibrary.ingredientsLibrary.reduce((num, ingredient) => {
       this.ingredientsData.forEach(ingredientData => {
         if(ingredient.id === ingredientData.id) {
           num += (ingredient.estimatedCostInCents * ingredientData.quantity.amount)
@@ -35,7 +36,8 @@ class Recipe {
       return num
     }, 0)
 
-    return costInCents * .01
+    let dollarAmount = costInCents * .01
+    return dollarAmount.toFixed(2)
   }
 
   getInstructions() {

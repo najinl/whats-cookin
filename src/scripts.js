@@ -36,10 +36,10 @@ const parseData = (data) => {
 const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
   //math random for random user, do not have user class yet
   let i = Math.floor(Math.random() * userDataArray.length);
-  ingredients = new IngredientsLibrary(ingredientDataArray)
+  //ingredients = new IngredientsLibrary(ingredientDataArray)
   recipeRepository = new RecipeRepository(recipeDataArray)
   recipe = recipeDataArray.map(recipe => {
-    return new Recipe(recipe, ingredients)
+    return new Recipe(recipe, ingredientDataArray)
   })
   user = new User(userDataArray[i], recipeRepository);
 }
@@ -195,6 +195,14 @@ function makeModal(recipe) {
   if(checkModal !== null) {
     recipeContainer.removeChild(checkModal);
   }
+
+  // let instructions = recipe.instructions(instruction => {
+  //   return `${instruction.number}. ${instruction}`
+  // })
+  let howTo = recipe.instructions.map(instruction => {
+    return `${instruction.number}. ${instruction.instruction} <br>`
+  })
+
   // we will need to modify the instructions with an iterator to get all of them included, I just did this for sake of time tonight. (line 193<p>) We need to thing out how we're going to number them too. I was thinking in front like this 1) preheat the oven...
   // I am thinking reduce() with an accumulator that concatenates the instructions into a single string
   let modal =
@@ -202,7 +210,8 @@ function makeModal(recipe) {
       <div class="modal" id="modal">
       <img class="modal-recipe-img" src="${recipe.image}"/>
         <h1>${recipe.name}</h1>
-        <p>${recipe.instructions[0].instruction}</p>
+        <p>${howTo}</p>
+        <p>It will cost ${recipe.calculateCost()} to make this recipe.</p>
         <button id="closeModal">Close</button>
       </div>
     </div>`
@@ -211,7 +220,7 @@ function makeModal(recipe) {
     closeModalBtn = document.getElementById('closeModal');
     modalContainer.classList.add('show');
     closeModalBtn.addEventListener('click', function() {
-      modalContainer.classList.remove('show');
+    modalContainer.classList.remove('show');
     });
 }
 
