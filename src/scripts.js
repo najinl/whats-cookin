@@ -200,7 +200,7 @@ function makeModal(recipe) {
   //   return `${instruction.number}. ${instruction}`
   // })
   let howTo = recipe.instructions.map(instruction => {
-    return `${instruction.number}. ${instruction.instruction} <br>`
+    return `${instruction.number}. ${instruction.instruction} <br><br>`
   })
 
   // we will need to modify the instructions with an iterator to get all of them included, I just did this for sake of time tonight. (line 193<p>) We need to thing out how we're going to number them too. I was thinking in front like this 1) preheat the oven...
@@ -208,11 +208,13 @@ function makeModal(recipe) {
   let modal =
     `<div class="modal-container" id="modalContainer">
       <div class="modal" id="modal">
-      <img class="modal-recipe-img" src="${recipe.image}"/>
-        <h1>${recipe.name}</h1>
-        <p>${howTo}</p>
-        <p>It will cost ${recipe.calculateCost()} to make this recipe.</p>
-        <button id="closeModal">Close</button>
+        <img class="modal-recipe-img" src="${recipe.image}"/>
+        <div class="modal-text">
+          <h1>${recipe.name}</h1>
+          <p class="howTo">${howTo}</p>
+          <p>It will cost $${recipe.calculateCost()} to make this recipe.</p>
+          <button id="closeModal">Close</button>
+        <div>
       </div>
     </div>`
     recipeContainer.innerHTML += modal
