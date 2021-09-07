@@ -13,7 +13,6 @@ class Recipe {
   }
 
   gatherIngredients() {
-    console.log(this.ingredientsLibrary);
     let findIngredients = this.ingredientsLibrary.ingredientsLibrary.forEach(ingredient => {
       this.ingredientsData.forEach(currentIngredient => {
        if(currentIngredient.id === ingredient.id) {

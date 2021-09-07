@@ -12,8 +12,6 @@ import RecipeRepository from './classes/RecipeRepository';
 import User from './classes/User';
 
 
-
-
 //global variables, instantiations of classes, holds info
 let ingredients, recipeRepository, recipe, user, displayRecipe, modalContainer, closeModalBtn
 
@@ -28,7 +26,6 @@ const parseData = (data) => {
   let userDataArray = data[0].usersData
   let ingredientDataArray = data[1].ingredientsData
   let recipeDataArray = data[2].recipeData
-
   instantiation(userDataArray, ingredientDataArray, recipeDataArray)
   renderinfo()
 }
@@ -36,7 +33,7 @@ const parseData = (data) => {
 const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
   //math random for random user, do not have user class yet
   let i = Math.floor(Math.random() * userDataArray.length);
-  //ingredients = new IngredientsLibrary(ingredientDataArray)
+  ingredients = new IngredientsLibrary(ingredientDataArray)
   recipeRepository = new RecipeRepository(recipeDataArray)
   recipe = recipeDataArray.map(recipe => {
     return new Recipe(recipe, ingredientDataArray)
@@ -58,9 +55,15 @@ var recipeLikeBtns = document.getElementsByClassName('btn');
 let recipeContainer = document.getElementById('recipeContainer');
 let lunch = document.getElementById('lunch')
 let filterBtn = document.getElementById('filterBtn')
+let searchBtn = document.getElementById('searchIcon')
+let searchValues = document.getElementById('inputSearch')
 
 filterBtn.addEventListener('click', (event) => {
   getTags('check')
+})
+
+searchBtn.addEventListener('click', (event) => {
+  getSearchItems()
 })
 
 function getTags(name) {
@@ -80,6 +83,15 @@ function getTags(name) {
   }
 }
 
+function getSearchItems() {
+let search = searchValues.value
+let foundRecipes = recipeRepository.filterByIngredients(search, ingredients.ingredientsLibrary)
+
+
+ clearCards()
+showCards(foundRecipes)
+
+}
 
 
 
@@ -165,7 +177,6 @@ function clearCards() {
     while (removeElement.firstChild) {
       removeElement.removeChild(removeElement.firstChild);
     }
-  //  removeElement.removeChild(recipeCard)
   }
 
 
@@ -203,12 +214,25 @@ function makeModal(recipe) {
     return `${instruction.number}. ${instruction.instruction} <br><br>`
   })
 
+  let gatheredIngredients = recipe.gatherIngredients()
+console.log(gatheredIngredients)
+  
+let styleIngredientsList = gatheredIngredients.map(ingredient => {
+    return `${ingredient}<br>`
+  })
+
+  console.log(styleIngredientsList)
+
   // we will need to modify the instructions with an iterator to get all of them included, I just did this for sake of time tonight. (line 193<p>) We need to thing out how we're going to number them too. I was thinking in front like this 1) preheat the oven...
   // I am thinking reduce() with an accumulator that concatenates the instructions into a single string
   let modal =
     `<div class="modal-container" id="modalContainer">
       <div class="modal" id="modal">
-        <img class="modal-recipe-img" src="${recipe.image}"/>
+        <section class="ingredients-picture">
+          <img class="modal-recipe-img" src="${recipe.image}"/>
+          <h2> Ingredients </h2>
+          <p>${styleIngredientsList}</p>
+        </section>
         <div class="modal-text">
           <h1>${recipe.name}</h1>
           <p class="howTo">${howTo}</p>
