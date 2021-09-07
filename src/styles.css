@@ -148,7 +148,7 @@ ul {
   height: 40%;
 }
 
-.filter-btn, .cook-me {
+.filter-btn, .view-me {
   width: 50%;
   align-self: center;
   background-color: #C4C4C4;
@@ -186,7 +186,7 @@ ul {
   /* border: 3px solid red; */
 }
 
-.recipe-card {
+.recipe-card, .favorited-recipe-card, .list-recipe-card {
   display: flex;
   align-content: flex-start;
   flex-direction: column;
@@ -232,7 +232,7 @@ ul {
   /* border: 3px solid blue; */
 }
 
-.cook-me {
+.view-me {
   margin: 0px 80px 0px 0px;
   width: 40%;
   font-size: 14px;
