@@ -1,7 +1,7 @@
 # What's Cookin'?
 
 ## Abstract
-What's Cookin' is an application developed by a group of Mod2 students at the Turing School of Software & Design. When the user opens up the webpage they will see recipe cards they can favorite/unfavorite ❤️, add to a cook list/remove from cook list &#10753, and view more details about (i.e. ingredients, instructions, recipe cost).
+What's Cookin' is an application developed by a group of Mod2 students at the Turing School of Software & Design. When the user opens up the webpage they will see recipe cards they can favorite/unfavorite ❤️, add to a cook list/remove from cook list +, and view more details about (i.e. ingredients, instructions, recipe cost).
 
 ## Set Up 
 
