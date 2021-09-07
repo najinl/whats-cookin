@@ -15,7 +15,7 @@ import User from './classes/User';
 
 
 //global variables, instantiations of classes, holds info
-let ingredients, recipeRepository, recipe, user, displayRecipe, modalContainer, closeModalBtn
+let ingredients, recipeRepository, recipe, user, displayRecipe, modalContainer, closeModalBtn, favoritedRecipes, likedRecipes
 
 
 const fetchData = () => {
@@ -55,35 +55,48 @@ let favNavBtn = document.getElementById('favNav');
 let listNavBtn = document.getElementById('listNav');
 var recipeLikeBtns = document.getElementsByClassName('btn');
 let recipeContainer = document.getElementById('recipeContainer');
+let favoritedContainer = document.getElementById('favoritedRecipeContainer');
+let myListContainer = document.getElementById('listRecipeContainer');
 
 window.addEventListener('load', (e) => {
   addClass(homeNavBtn, 'hidden');
   fetchData()
+  console.log(recipe)
 })
 
 homeNavBtn.addEventListener('click', function() {
+  favoritedContainer.innerHTML = '';
+  myListContainer.innerHTML = '';
   addClass(homeNavBtn, 'hidden');
   removeClass(favNavBtn, 'hidden');
   removeClass(listNavBtn, 'hidden');
+  addClass(favoritedContainer, 'hidden');
+  removeClass(recipeContainer, 'hidden');
+  refreshFavorited();
+  refreshLiked()
 })
 
 favNavBtn.addEventListener('click', function() {
+  favoritedContainer.innerHTML = '';
+  myListContainer.innerHTML = '';
   addClass(favNavBtn, 'hidden');
   removeClass(homeNavBtn, 'hidden');
   removeClass(listNavBtn, 'hidden');
+  showFavorites();
 })
 
 listNavBtn.addEventListener('click', function() {
   addClass(listNavBtn, 'hidden');
   removeClass(homeNavBtn, 'hidden')
   removeClass(favNavBtn, 'hidden')
+  showMyList()
 });
 
 recipeContainer.addEventListener('click', function(e) {
   let targetBtn = e.target;
-  let recipeID = targetBtn.closest('.recipe-card').id;
-  let favoritedRecipes = user.myFavorites;
-  let likedRecipes = user.myList;
+  let recipeID = parseInt(targetBtn.closest('.recipe-card').id);
+  favoritedRecipes = user.myFavorites;
+  likedRecipes = user.myList;
 
   if(targetBtn.closest('button')) {
     if(targetBtn.classList.contains('favorite')) {
@@ -98,8 +111,7 @@ recipeContainer.addEventListener('click', function(e) {
     else if(targetBtn.classList.contains('remove') && !targetBtn.classList.contains('add')){
       removeFromCookList(targetBtn, likedRecipes, recipeID);
     }
-    else if(targetBtn.closest('#cookMe')) {
-      // filteredRec = null;
+    else if(targetBtn.closest('#viewRecipe')) {
       let filteredRec = recipe.filter((oneRecipe) => {
         return oneRecipe.id === parseInt(recipeID);
       })
@@ -107,10 +119,84 @@ recipeContainer.addEventListener('click', function(e) {
       modalContainer.classList.add('show')
     }
   }
-  // console.log(e.target)
-  // console.log(user.myFavorites)
-  // console.log(user.myList)
+  console.log('Home List:',user.myList);
+  // console.log('Home Fav:',user.myFavorites);
 })
+
+favoritedContainer.addEventListener('click', function(e) {
+  let targetBtn = e.target;
+  let recipeID = parseInt(targetBtn.closest('.favorited-recipe-card').id);
+  console.log('recipeID on fav,', recipeID)
+
+  if(targetBtn.classList.contains('unfavorite')) {
+      removeFromFavorites(targetBtn, favoritedRecipes, recipeID);
+    }
+    else if(targetBtn.classList.contains('unfavorite') && targetBtn.classList.contains('favorite')) {
+      addToFavorites(targetBtn, favoritedRecipes, recipeID);
+    }
+    else if(targetBtn.classList.contains('add') && targetBtn.classList.contains('remove')) {
+      addToCookList(targetBtn, recipeID);
+    }
+    else if(targetBtn.classList.contains('remove') && !targetBtn.classList.contains('add')){
+      removeFromCookList(targetBtn, likedRecipes, recipeID);
+    }
+    console.log('Fav List:',user.myList);
+    // console.log('Fav Fav:',user.myFavorites);
+  // console.log(user.myList);
+})
+
+myListContainer.addEventListener('click', function(e) {
+  let targetBtn = e.target;
+  let recipeID = parseInt(targetBtn.closest('.list-recipe-card').id);
+  console.log(recipeID);
+  if(targetBtn.classList.contains('unfavorite') && targetBtn.classList.contains('favorite')) {
+      addToFavorites(targetBtn, favoritedRecipes, recipeID);
+      console.log('screw')
+    }
+    else if(targetBtn.classList.contains('unfavorite') && !targetBtn.classList.contains('favorite')) {
+      removeFromFavorites(targetBtn, favoritedRecipes, recipeID);
+      console.log('this')
+    }
+    else if(targetBtn.classList.contains('add') && targetBtn.classList.contains('remove')) {
+      addToCookList(targetBtn, recipeID);
+      console.log('shit')
+    }
+    else if(targetBtn.classList.contains('remove')){
+      removeFromCookList(targetBtn, likedRecipes, recipeID);
+      console.log('man')
+    }
+    console.log('List List:',user.myList);
+    // console.log('List Fav:',user.myFavorites);
+})
+
+function refreshFavorited() {
+let recipeCard = recipeContainer.querySelectorAll('.recipe-card');
+// let favBtn = document.querySelector('.btn unfavorite');
+  recipeCard.forEach(recipe => {
+    let recipeActions = recipe.getElementsByClassName('recipe-actions');
+    let favBtn = recipeActions[0].children[2]
+    if(favoritedRecipes.includes(parseInt(recipe.id))) {
+       removeClass(favBtn, 'favorite')
+    }
+    else {
+      addClass(favBtn, 'favorite')
+    }
+  })
+}
+
+function refreshLiked() {
+let recipeCard = recipeContainer.querySelectorAll('.recipe-card');
+  recipeCard.forEach(recipe => {
+    let recipeActions = recipe.getElementsByClassName('recipe-actions');
+    let addBtn = recipeActions[0].children[1]
+    if(likedRecipes.includes(parseInt(recipe.id))) {
+       removeClass(addBtn, 'add')
+    }
+    else {
+      addClass(addBtn, 'add')
+    }
+  })
+}
 
 
 function showCards() {
@@ -124,13 +210,59 @@ function showCards() {
       <img class="recipe-img" src="${oneRecipe.image}"/>
       <p>${oneRecipe.name}</p>
       <div class="recipe-actions">
-        <button class="cook-me" id="cookMe">Cook Me!</button>
+        <button class="view-me" id="viewRecipe">View</button>
         <button class="btn remove add"></button>
         <button class="btn unfavorite favorite"></button>
       </div>
     </section>`
     recipeContainer.innerHTML += cardContent
   })
+};
+
+function showFavorites() {
+  // console.log('FAVORITES', favoritedRecipes)
+  recipe.forEach(currRecipe =>
+    {
+    const favoritedRecipeCard = document.createElement('div');
+    favoritedRecipeCard.classList = 'favorited-recipe-card';
+    if(favoritedRecipes.includes(currRecipe.id)) {
+    let cardContent =
+    `<section class="favorited-recipe-card" id="${currRecipe.id}">
+      <img class="recipe-img" src="${currRecipe.image}"/>
+      <p>${currRecipe.name}</p>
+      <div class="recipe-actions">
+        <button class="btn remove add" id="addRecipe"></button>
+        <button class="btn unfavorite" id="favoriteRecipe"></button>
+      </div>
+    </section>`
+    favoritedContainer.innerHTML += cardContent
+  }
+  })
+  addClass(recipeContainer, 'hidden');
+  removeClass(favoritedContainer, 'hidden');
+};
+
+function showMyList() {
+  // console.log('FAVORITES', favoritedRecipes)
+  recipe.forEach(currRecipe =>
+    {
+    const listRecipeCard = document.createElement('div');
+    listRecipeCard.classList = 'list-recipe-card';
+    if(likedRecipes.includes(currRecipe.id)) {
+    let cardContent =
+    `<section class="list-recipe-card" id="${currRecipe.id}">
+      <img class="recipe-img" src="${currRecipe.image}"/>
+      <p>${currRecipe.name}</p>
+      <div class="recipe-actions">
+        <button class="btn remove" id="addRecipe"></button>
+        <button class="btn unfavorite favorite" id="favoriteRecipe"></button>
+      </div>
+    </section>`
+    myListContainer.innerHTML += cardContent
+  }
+  })
+  addClass(recipeContainer, 'hidden');
+  addClass(favoritedContainer, 'hidden');
 };
 
 function addToFavorites(targetBtn, id) {
