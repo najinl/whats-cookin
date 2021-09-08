@@ -49,7 +49,6 @@ const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
     return new Recipe(recipe, ingredientDataArray)
   })
   user = new User(userDataArray[i], recipeRepository);
-  console.log(user.name)
 }
 
 //Event Listeners
@@ -64,11 +63,7 @@ searchBtn.addEventListener('click', (event) => {
 })
 
 filterBtn.addEventListener('click', (event) => {
-  if(searchValues.value.length> 0) {
-    getTags()
-   
-  } 
-  console.log(searchValues.value)
+    getTags() 
 })
 
 homeNavBtn.addEventListener('click', () => {
