@@ -21,7 +21,12 @@ What's Cookin' is an application developed by a group of Mod2 students at the Tu
   - Chai
   
 ## Planning
-- Wireframes
+- Wireframes:
+-Home view
+![image](https://user-images.githubusercontent.com/68795578/131358969-ceacfb84-43a0-4667-b197-71ce1ade59c6.png)
+
+Home screen with pop-up
+![image](https://user-images.githubusercontent.com/68795578/131358338-d3dc115f-a2fb-4a0c-b044-8f58ec261504.png)
 - GitHub Project Board (See `Projects` in repository menu
 
 ## Part 1 Fixes (to revisit during Part 2)
