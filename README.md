@@ -4,6 +4,8 @@
 What's Cookin' is an application developed by a group of Mod2 students at the Turing School of Software & Design. When the user opens up the webpage they will see recipe cards they can favorite/unfavorite ❤️, add to a cook list/remove from cook list ➕, and view more details about (i.e. ingredients, instructions, recipe cost). A user can utilize the search bar at the top of the page to search recipes by names and/or ingredients or they can search by recipe tags (i.e. lunch, breakfast, dinner, appetizer) utilizing the "Recipe Type" checkboxes and filter button on the right-pane of the screen.
 
 ![recording (2)](https://user-images.githubusercontent.com/68795578/132438129-4f30d5cd-0804-4206-9d80-9bf4e9f62a9d.gif)
+![recording (3)](https://user-images.githubusercontent.com/68795578/132438267-3a1b0a90-12cf-4178-a429-263e792416f4.gif)
+
 
 
 ## Instructions to Access Application
