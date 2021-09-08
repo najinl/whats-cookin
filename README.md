@@ -5,6 +5,8 @@ What's Cookin' is an application developed by a group of Mod2 students at the Tu
 
 ![recording (2)](https://user-images.githubusercontent.com/68795578/132438129-4f30d5cd-0804-4206-9d80-9bf4e9f62a9d.gif)
 ![recording (3)](https://user-images.githubusercontent.com/68795578/132438267-3a1b0a90-12cf-4178-a429-263e792416f4.gif)
+![recording (4)](https://user-images.githubusercontent.com/68795578/132438435-9dea0a0b-0bba-4030-89e9-f63fec3f88c7.gif)
+
 
 
 
