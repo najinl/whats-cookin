@@ -63,7 +63,7 @@ searchBtn.addEventListener('click', (event) => {
 })
 
 filterBtn.addEventListener('click', (event) => {
-    getTags() 
+    getTags()
 })
 
 homeNavBtn.addEventListener('click', () => {
@@ -327,7 +327,7 @@ const removeClass = (element, classList) => {
 
 const getSearchItems = () => {
   let search = searchValues.value
-  foundRecipeIngredients = recipeRepository.filterByIngredients(search, ingredients.ingredientsLibrary) 
+  foundRecipeIngredients = recipeRepository.filterByIngredients(search, ingredients.ingredientsLibrary)
   foundRecipeNames = recipeRepository.filterByName(search)
    clearCards()
    showCards(foundRecipeNames)
@@ -340,7 +340,7 @@ const getTags = ()  => {
   let checkedElements = [];
   checkBox.forEach((checkbox) => {
     checkedElements.push(checkbox.value)
-  }) 
+  })
   let newRecipes = recipeRepository.filterByTags(checkedElements)
   if(findChecks === 0) {
     showCards(recipe)
