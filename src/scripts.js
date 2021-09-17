@@ -9,10 +9,11 @@ import { fetchUsers, fetchIngredients, fetchRecipes} from './apiCalls.js';
 import IngredientsLibrary from './classes/IngredientsRepository.js';
 import Recipe from './classes/Recipe.js';
 import RecipeRepository from './classes/RecipeRepository';
+import Pantry from './classes/Pantry';
 import User from './classes/User';
 
 //global variables, instantiations of classes
-let ingredients, recipeRepository, recipe, user, displayRecipe, modalContainer, closeModalBtn, favoritedRecipes, likedRecipes,
+let ingredients, recipeRepository, recipe, user, pantry, displayRecipe, modalContainer, closeModalBtn, favoritedRecipes, likedRecipes,
 foundRecipeIngredients, foundRecipeNames
 
 let homeNavBtn = document.getElementById('homeNav');
@@ -48,14 +49,16 @@ const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
   recipe = recipeDataArray.map(recipe => {
     return new Recipe(recipe, ingredientDataArray)
   })
-  user = new User(userDataArray[i], recipeRepository);
+  user = new User(userDataArray[i], recipeRepository, ingredientDataArray);
+  console.log(user)
+  console.log(userDataArray)
 }
 
 //Event Listeners
 window.addEventListener('load', (e) => {
   addClass(homeNavBtn, 'hidden');
   fetchData()
-  renderName()
+  // renderName()
 })
 
 searchBtn.addEventListener('click', (event) => {
@@ -354,7 +357,7 @@ const renderinfo = () => {
   showCards(recipe)
 }
 
-const renderName = (user) => {
-  const renderedText = `What's cookin ${user.name}?`;
-  welcomename.innerText += renderedText
-}
+// const renderName = (user) => {
+//   const renderedText = `What's cookin ${user.name}?`;
+//   welcomename.innerText += renderedText
+// }
