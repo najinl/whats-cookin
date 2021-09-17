@@ -26,6 +26,7 @@ let searchValues = document.getElementById('inputSearch');
 let favoritedContainer = document.getElementById('favoritedRecipeContainer');
 let myListContainer = document.getElementById('listRecipeContainer');
 let welcomename = document.getElementById('username')
+let tagList = document.getElementById('tagList')
 
 //Fetch Calls
 const fetchData = () => {
@@ -84,6 +85,7 @@ favNavBtn.addEventListener('click', () => {
   addClass(favNavBtn, 'hidden');
   removeClass(homeNavBtn, 'hidden');
   removeClass(listNavBtn, 'hidden');
+  removeClass(tagList, 'hidden')
   showFavorites();
 })
 
@@ -91,6 +93,7 @@ listNavBtn.addEventListener('click', () => {
   addClass(listNavBtn, 'hidden');
   removeClass(homeNavBtn, 'hidden')
   removeClass(favNavBtn, 'hidden')
+  addClass(tagList, 'hidden')
   showMyList()
 });
 
@@ -199,9 +202,9 @@ const showCards = (data) => {
       <img class="recipe-img" src="${oneRecipe.image}"/>
       <p>${oneRecipe.name}</p>
       <div class="recipe-actions">
-        <button class="view-me" id="viewRecipe">View</button>
-        <button class="btn remove add"></button>
-        <button class="btn unfavorite favorite"></button>
+        <button aria-label="view ${oneRecipe.name} recipe" class="view-me" id="viewRecipe">View</button>
+        <button aria-label="add ${oneRecipe.name} to cook list" class="btn remove add"></button>
+        <button aria-label="add ${oneRecipe.name} to favorites" class="btn unfavorite favorite" id="favoriteRecipe"></button>
       </div>
     </section>`
     recipeContainer.innerHTML += cardContent
@@ -259,14 +262,20 @@ const showMyList = () => {
   addClass(favoritedContainer, 'hidden');
 };
 
+
+
 const addToFavorites = (targetBtn, id) => {
   targetBtn.classList.remove('favorite')
-  user.favoriteRecipes(id);
+  user.favoriteRecipes(id)
+  let changeAria = document.getElementById('favoriteRecipe')
+  changeAria.ariaLabel = 'add to favorites'
 };
 
 const removeFromFavorites = (targetBtn, favoritedRecipes, id) => {
   targetBtn.classList.add('favorite')
-  user.unfavoriteRecipes(favoritedRecipes, id);
+  user.unfavoriteRecipes(favoritedRecipes, id) 
+  let changeAria = document.getElementById('favoriteRecipe')
+  changeAria.ariaLabel = 'remove from favorites'
 }
 
 const addToCookList = (targetBtn, id) => {
@@ -293,7 +302,7 @@ const makeModal = (recipe) => {
     return `${ingredient}<br>`
   })
   let modal =
-    `<div class="modal-container" id="modalContainer">
+    `<div role="dialog" aria-labelledby="dialog-title" class="modal-container" id="modalContainer">
       <div class="modal" id="modal">
         <section class="ingredients-picture">
           <img class="modal-recipe-img" src="${recipe.image}"/>
@@ -357,4 +366,8 @@ const renderinfo = () => {
 const renderName = (user) => {
   const renderedText = `What's cookin ${user.name}?`;
   welcomename.innerText += renderedText
+}
+
+const showPantryItems = () => {
+  
 }
