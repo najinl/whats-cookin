@@ -58,7 +58,7 @@ describe('Pantry', () => {
   {
     id: 111,
     image: 'https://someimage.com/1',
-    ingredients: [{
+    ingredientsData: [{
     "id": 2047,
     "quantity": {
       "amount": 20,
@@ -92,7 +92,7 @@ describe('Pantry', () => {
   {
     id: 222,
     image: 'https://someimage.com/2',
-    ingredients: [{
+    ingredientsData: [{
       "id": 11821,
       "quantity": {
         "amount": 1,
@@ -119,7 +119,7 @@ describe('Pantry', () => {
   {
     id: 333,
     image: 'https://someimage.com/3',
-    ingredients: [{
+    ingredientsData: [{
     "id": 18371,
     "quantity": {
       "amount": 14,
@@ -182,6 +182,21 @@ describe('Build Pantry', () => {
   });
 
   it('should have an ingredients inventory', () => {
+    // console.log('PANTRY RAW:',userPantry.rawPantryData)
+    // console.log('INGREDIENTS HAVE:', userPantry.ingredients)
+    // console.log('Hi',userPantry.determineAmtNeeded(recipe1));
+    // console.log('hi',userPantry.determineAmtNeeded(recipe2));
+    // console.log('length',userPantry.ingredientsNeeded)
+    // console.log('RECIPE1',userPantry.determineIfCanCook(recipe1))
+    // console.log(userPantry.determineIfCanCook(recipe3))
+    userPantry.determineAmtNeeded(recipe2)
+    console.log(userPantry.ingredientsNeeded)
+    // console.log('hi',userPantry.returnCookMessage(recipe2));
+    // console.log(userPantry.ingredientsNeeded)
+    // console.log(userPantry.determineIfCanCook(recipe1))
+    // console.log(userPantry.ingredientsNeeded)
+    console.log(userPantry.ingredientsById)
+    console.log(userPantry.ingredients)
     // console.log(userPantry.ingredientInventory.ingredientsLibrary)
     // expect(userPantry.ingredientInventory instanceof IngredientsLibrary).to.deep.equal(true);
     // expect(userPantry.ingredientInventory).to.be.an.instanceof(IngredientsLibrary);
