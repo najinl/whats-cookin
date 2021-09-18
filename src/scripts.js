@@ -14,7 +14,7 @@ import User from './classes/User';
 
 //global variables, instantiations of classes
 let ingredients, recipeRepository, recipe, user, pantry, displayRecipe, modalContainer, closeModalBtn, favoritedRecipes, likedRecipes,
-foundRecipeIngredients, foundRecipeNames
+foundRecipeIngredients, foundRecipeNames, pantryUL
 
 let homeNavBtn = document.getElementById('homeNav');
 let favNavBtn = document.getElementById('favNav');
@@ -27,7 +27,9 @@ let searchValues = document.getElementById('inputSearch');
 let favoritedContainer = document.getElementById('favoritedRecipeContainer');
 let myListContainer = document.getElementById('listRecipeContainer');
 let welcomename = document.getElementById('username')
-let tagList = document.getElementById('tagList')
+let myPantry = document.getElementById('myPantry')
+let leftPane = document.getElementById('leftPane')
+let usersPantry = document.getElementById('usersPantry')
 
 //Fetch Calls
 const fetchData = () => {
@@ -51,15 +53,13 @@ const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
     return new Recipe(recipe, ingredientDataArray)
   })
   user = new User(userDataArray[i], recipeRepository, ingredientDataArray);
-  console.log(user)
-  console.log(userDataArray)
+  renderName()
 }
 
 //Event Listeners
 window.addEventListener('load', (e) => {
   addClass(homeNavBtn, 'hidden');
   fetchData()
-  // renderName()
 })
 
 searchBtn.addEventListener('click', (event) => {
@@ -78,8 +78,10 @@ homeNavBtn.addEventListener('click', () => {
   removeClass(listNavBtn, 'hidden');
   addClass(favoritedContainer, 'hidden');
   removeClass(recipeContainer, 'hidden');
+  addClass(myPantry, 'hidden');
+  removeClass(tagList, 'hidden');
   refreshFavorited();
-  refreshLiked()
+  refreshLiked();
 })
 
 favNavBtn.addEventListener('click', () => {
@@ -94,11 +96,16 @@ favNavBtn.addEventListener('click', () => {
 
 listNavBtn.addEventListener('click', () => {
   addClass(listNavBtn, 'hidden');
-  removeClass(homeNavBtn, 'hidden')
-  removeClass(favNavBtn, 'hidden')
-  addClass(tagList, 'hidden')
+  removeClass(homeNavBtn, 'hidden');
+  removeClass(favNavBtn, 'hidden');
+  addClass(tagList, 'hidden');
+  addClass(recipeContainer, 'hidden');
+  removeClass(myPantry, 'hidden');
+  showPantryItems();
   showMyList()
 });
+
+
 
 recipeContainer.addEventListener('click', (e) => {
   let targetBtn = e.target;
@@ -214,8 +221,8 @@ const showCards = (data) => {
   })
 };
 
-const clearCards = () => {
-    let removeElement = document.getElementById('recipeContainer')
+const clearCards = (containerElement) => {
+    let removeElement = document.getElementById(containerElement)
     while (removeElement.firstChild) {
       removeElement.removeChild(removeElement.firstChild);
     }
@@ -259,8 +266,9 @@ const showMyList = () => {
       </div>
     </section>`
     myListContainer.innerHTML += cardContent
-  }
+  } 
   })
+
   addClass(recipeContainer, 'hidden');
   addClass(favoritedContainer, 'hidden');
 };
@@ -302,15 +310,17 @@ const makeModal = (recipe) => {
   })
   let gatheredIngredients = recipe.gatherIngredients()
   let styleIngredientsList = gatheredIngredients.map(ingredient => {
-    return `${ingredient}<br>`
-  })
+    return `<li class="ingredient-list">${ingredient}</li>`
+  }).join(" ")
   let modal =
     `<div role="dialog" aria-labelledby="dialog-title" class="modal-container" id="modalContainer">
       <div class="modal" id="modal">
         <section class="ingredients-picture">
           <img class="modal-recipe-img" src="${recipe.image}"/>
           <h2> Ingredients </h2>
-          <p>${styleIngredientsList}</p>
+          <ul>
+          ${styleIngredientsList}
+          </ul>
         </section>
         <div class="modal-text">
           <h1>${recipe.name}</h1>
@@ -341,7 +351,7 @@ const getSearchItems = () => {
   let search = searchValues.value
   foundRecipeIngredients = recipeRepository.filterByIngredients(search, ingredients.ingredientsLibrary)
   foundRecipeNames = recipeRepository.filterByName(search)
-   clearCards()
+   clearCards('recipeContainer')
    showCards(foundRecipeNames)
    showCards(foundRecipeIngredients)
   }
@@ -357,7 +367,7 @@ const getTags = ()  => {
   if(findChecks === 0) {
     showCards(recipe)
   } else {
-    clearCards()
+    clearCards('recipeContainer')
     showCards(newRecipes)
   }
 }
@@ -366,7 +376,37 @@ const renderinfo = () => {
   showCards(recipe)
 }
 
-// const renderName = (user) => {
-//   const renderedText = `What's cookin ${user.name}?`;
-//   welcomename.innerText += renderedText
-// }
+const renderName = () => {
+  const renderedText = `What's cookin ${user.name}?`;
+  welcomename.innerText += renderedText
+}
+
+const showPantryItems = () => {
+//myPantry.innerHTML = ""
+
+if(myPantry) {
+  console.log('stuff')
+}
+
+ user.myPantry.addIngredientsByName();
+ let inUserPantry = user.myPantry.ingredients.map(ingredient => {
+  return `<li>${ingredient.name}(${ingredient.amount})</li>`
+ }).join(" ")
+
+ let pantryContent = 
+ `<section class="users-pantry" id="usersPantry">
+    <h2 class="pantry-title">${user.name}'s Pantry Items</h2>
+    <ul class="pantry-items" id="pantryUL">
+    ${inUserPantry}
+    </ul>
+  </section>`
+
+  myPantry.innerHTML += pantryContent
+
+  // pantryUL = document.getElementById('pantryUL')
+
+  // if(pantryUL.innerText.length > 0) {
+  //   pantry.innerText = null
+  // }
+
+}

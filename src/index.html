@@ -12,7 +12,7 @@
 	  <div class=“dialog-overlay”></div>
     <header>
       <div id="welcomeName"> 
-        <h1 id="username"> What's up, Oscar?</h1>
+        <h1 id="username"></h1>
       </div>
       <div class="search-wrapper">
         <img class="search-icon" id="searchIcon" src="./images/search.svg" alt="magnifying glass"/>
@@ -32,9 +32,9 @@
       </button>
     </header>
     <section class="main-page">
-      <section class="left-pane">
+      <section class="left-pane" id="leftPane">
         <section class="search-recipe" id="tagList">
-          <h2> <img src="./images/burger.png" class="burger-img" alt="burger icon"> Recipe Type
+          <h2 class="filter-list"> <img src="./images/burger.png" class="burger-img" alt="burger icon"> Recipe Type
           </h2>
           <label class="tag-list">
             <!--The li items below will need to be dynamically manipulated to list all of the tags from our API -->
@@ -100,7 +100,8 @@
             <button aria-label="Filter recipes by tags" class="filter-btn" id="filterBtn">Filter Recipes</button>
         </label>
         </section>
-        <section class="my-pantry">
+        <section class="my-pantry" id="myPantry">
+          
         </section>
       </section>
       <section class="right-pane">

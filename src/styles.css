@@ -46,12 +46,25 @@ p {
   /* border: 1px solid red; */
 }
 
-h2 {
+.filter-list{
   text-decoration: underline;
   /* border: 2px solid green; */
   align-self: center;
+
   margin: 0px;
 }
+
+.pantry-title {
+  text-decoration: underline;
+  text-align: center;
+}
+
+.pantry-items {
+  text-align: left;
+  margin: 0px;
+  list-style-type: disc;
+}
+
 button {
   cursor: pointer;
 }
@@ -334,4 +347,8 @@ ul {
 
 .hidden {
   display: none !important;
+}
+
+.ingredient-list {
+  list-style-type: disc;
 }
