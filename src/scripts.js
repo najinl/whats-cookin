@@ -15,7 +15,6 @@ import User from './classes/User';
 //global variables, instantiations of classes
 let ingredients, recipeRepository, recipe, user, pantry, displayRecipe, modalContainer, closeModalBtn, favoritedRecipes, likedRecipes,
 foundRecipeIngredients, foundRecipeNames
-// , neededIngBtn, cookBtn
 
 let homeNavBtn = document.getElementById('homeNav');
 let favNavBtn = document.getElementById('favNav');
@@ -50,18 +49,14 @@ const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
   recipe = recipeDataArray.map(recipe => {
     return new Recipe(recipe, ingredientDataArray)
   })
-  user = new User(userDataArray[i], recipeRepository, ingredientDataArray);
-  console.log(user)
-  console.log(userDataArray)
-  console.log(recipeDataArray)
-  console.log(recipeDataArray[0].id)
+  user = new User(userDataArray[4], recipeRepository, ingredientDataArray);
+  user.myPantry.addIngredientsByName()
 }
 
 //Event Listeners
 window.addEventListener('load', (e) => {
   addClass(homeNavBtn, 'hidden');
   fetchData()
-  // renderName()
 })
 
 searchBtn.addEventListener('click', (event) => {
@@ -128,7 +123,6 @@ recipeContainer.addEventListener('click', (e) => {
       modalContainer.classList.add('show')
     }
   }
-  // console.log('FAVORITED:',favoritedRecipes)
 })
 
 favoritedContainer.addEventListener('click', (e) => {
@@ -152,8 +146,6 @@ favoritedContainer.addEventListener('click', (e) => {
 myListContainer.addEventListener('click', (e) => {
   let targetBtn = e.target;
   let recipeID = parseInt(targetBtn.closest('.list-recipe-card').id);
-//9/17 --->argument for remove fromPantry
-  console.log(targetBtn)
 
   if(targetBtn.classList.contains('unfavorite') && targetBtn.classList.contains('favorite')) {
       addToFavorites(targetBtn, favoritedRecipes, recipeID);
@@ -171,9 +163,9 @@ myListContainer.addEventListener('click', (e) => {
       let checkIngrRecipe = recipe.find(currRecipe => {
       return currRecipe.id === recipeID
       })
-      console.log(checkIngrRecipe)
-      user.myPantry.determineAmtNeeded(checkIngrRecipe)
-      alert(user.myPantry.returnCookMessage())
+      user.myPantry.determineAmtNeeded(checkIngrRecipe);
+      let returnMsg = user.myPantry.returnCookMessage();
+      makeModalMissing(returnMsg);
     }
 })
 
@@ -256,15 +248,14 @@ const showFavorites = () => {
 };
 
 const showMyList = () => {
+  let cardContent;
   recipe.forEach(currRecipe =>
     {
       user.myPantry.determineAmtNeeded(currRecipe)
-      // console.log("IngNeed!!!",user.myPantry.ingredientsNeeded.length)
-      console.log("IngNeededList:", user.myPantry.ingredientsNeeded)
     const listRecipeCard = document.createElement('div');
-    // listRecipeCard.classList = 'list-recipe-card';
-    if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length > 0) {
-    let cardContent =
+    if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length > 4) {
+      console.log(user.myPantry.ingredientsNeeded)
+    cardContent =
     `<section class="list-recipe-card" id="${currRecipe.id}">
       <img class="recipe-img" src="${currRecipe.image}"/>
       <p>${currRecipe.name}</p>
@@ -275,8 +266,8 @@ const showMyList = () => {
       </div>
     </section>`
     myListContainer.innerHTML += cardContent
-    // neededIngBtn = document.getElementById('missingIng');
-  } else if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length === 0) {
+  } else if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length < 4 ) {
+    cardContent =
     `<section class="list-recipe-card" id="${currRecipe.id}">
       <img class="recipe-img" src="${currRecipe.image}"/>
       <p>${currRecipe.name}</p>
@@ -287,7 +278,6 @@ const showMyList = () => {
       </div>
     </section>`
     myListContainer.innerHTML += cardContent
-    // cookBtn = document.getElementById('letsCook');
   }
   })
   addClass(recipeContainer, 'hidden');
@@ -356,6 +346,28 @@ const makeModal = (recipe) => {
   });
 }
 
+const makeModalMissing = (returnMsg) => {
+  const newModal = document.createElement('div');
+  let checkModal = document.getElementById('modalContainer');
+  if(checkModal !== null) {
+    listRecipeContainer.removeChild(checkModal);
+  }
+  let modal =
+  `<div class="modal-container" id="modalContainer">
+    <p class="modal" id="modal">
+      ${returnMsg}
+    </p>
+    <button id="closeModal">Close</button>
+  </div>`
+  listRecipeContainer.innerHTML += modal
+  modalContainer = document.getElementById('modalContainer')
+  closeModalBtn = document.getElementById('closeModal');
+  modalContainer.classList.add('show');
+  closeModalBtn.addEventListener('click', function() {
+  modalContainer.classList.remove('show');
+});
+}
+
 const addClass = (element, classList) => {
   element.classList.add(classList);
 }
@@ -392,8 +404,3 @@ const getTags = ()  => {
 const renderinfo = () => {
   showCards(recipe)
 }
-
-// const renderName = (user) => {
-//   const renderedText = `What's cookin ${user.name}?`;
-//   welcomename.innerText += renderedText
-// }
