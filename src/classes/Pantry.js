@@ -24,7 +24,7 @@ class Pantry {
   }
 
 determineAmtNeeded(recipe) {
-let neededIngredients = recipe.ingredients.reduce((acc, ingredient) => {
+let neededIngredients = recipe.ingredientsData.reduce((acc, ingredient) => {
   this.ingredients.forEach(ingr => {
     if(ingredient.id === ingr.ingredient && ingredient.quantity.amount > ingr.amount) {
       acc.push({name: ingr.name,
@@ -34,7 +34,7 @@ let neededIngredients = recipe.ingredients.reduce((acc, ingredient) => {
 return acc;
 },[])
 
-recipe.ingredients.forEach(ingredient => {
+recipe.ingredientsData.forEach(ingredient => {
     if(!this.ingredientsById.includes(ingredient.id)) {
       neededIngredients.push({name: ingredient.id, amountNeeded: ingredient.quantity.amount})
     }
