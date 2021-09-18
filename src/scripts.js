@@ -97,16 +97,15 @@ favNavBtn.addEventListener('click', () => {
 
 listNavBtn.addEventListener('click', () => {
   addClass(listNavBtn, 'hidden');
+  addClass(recipeContainer, 'hidden');
   removeClass(homeNavBtn, 'hidden');
   removeClass(favNavBtn, 'hidden');
   addClass(tagList, 'hidden');
-  addClass(recipeContainer, 'hidden');
+  
   removeClass(myPantry, 'hidden');
   showPantryItems();
   showMyList()
 });
-
-
 
 recipeContainer.addEventListener('click', (e) => {
   let targetBtn = e.target;
@@ -414,32 +413,33 @@ const renderName = () => {
   welcomename.innerText += renderedText
 }
 
+
+
+// let hey = document.querySelector('.hey')
+// const changeIt = () => {
+//   if(hey.children[1].innerText.length > 3) {
+//   hey.children[1].innerText += 'WHAT!'
+//   }
+//   return hey.children[1].innerText;
+// }
+// // console.log(hey.children[1])
+
+// console.log(changeIt())
+
 const showPantryItems = () => {
-//myPantry.innerHTML = ""
+  user.myPantry.addIngredientsByName();
+  let inUserPantry = user.myPantry.ingredients.map(ingredient => {
+   return `<li>${ingredient.name}(${ingredient.amount})</li>`
+  }).join(" ")
 
-if(myPantry) {
-  console.log('stuff')
-}
-
- user.myPantry.addIngredientsByName();
- let inUserPantry = user.myPantry.ingredients.map(ingredient => {
-  return `<li>${ingredient.name}(${ingredient.amount})</li>`
- }).join(" ")
-
- let pantryContent = 
- `<section class="users-pantry" id="usersPantry">
-    <h2 class="pantry-title">${user.name}'s Pantry Items</h2>
-    <ul class="pantry-items" id="pantryUL">
-    ${inUserPantry}
-    </ul>
-  </section>`
-
-  myPantry.innerHTML += pantryContent
-
-  // pantryUL = document.getElementById('pantryUL')
-
-  // if(pantryUL.innerText.length > 0) {
-  //   pantry.innerText = null
-  // }
-
+  if(myPantry.children.length < 1) {
+  let pantryContent = 
+  `<section class="users-pantry" id="usersPantry">
+      <h2 class="pantry-title">${user.name}'s Pantry Items</h2>
+      <ul class="pantry-items" id="pantryUL">
+      ${inUserPantry}
+      </ul>
+    </section>`
+    myPantry.innerHTML += pantryContent
+  } 
 }
