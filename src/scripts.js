@@ -5,15 +5,16 @@ import './images/fridge.svg';
 import './images/home.svg';
 import './images/list.svg';
 import './images/search.svg';
-import { fetchUsers, fetchIngredients, fetchRecipes} from './apiCalls.js';
+import { fetchUsers, fetchIngredients, fetchRecipes, buyIngredients, removeFromPantry} from './apiCalls.js';
 import IngredientsLibrary from './classes/IngredientsRepository.js';
 import Recipe from './classes/Recipe.js';
 import RecipeRepository from './classes/RecipeRepository';
 import Pantry from './classes/Pantry';
 import User from './classes/User';
 
+
 //global variables, instantiations of classes
-let ingredients, recipeRepository, recipe, user, pantry, displayRecipe, modalContainer, closeModalBtn, markCookedBtn, buyIngBtn, letsCookBtn, favoritedRecipes, likedRecipes,foundRecipeIngredients, foundRecipeNames
+let ingredients, recipeRepository, recipe, user, pantry, displayRecipe, modalContainer, closeModalBtn, markCookedBtn, buyIngBtn, missingIngBtn, letsCookBtn, favoritedRecipes, likedRecipes,foundRecipeIngredients, foundRecipeNames
 
 let homeNavBtn = document.getElementById('homeNav');
 let favNavBtn = document.getElementById('favNav');
@@ -181,7 +182,7 @@ myListContainer.addEventListener('click', (e) => {
     else if(targetBtn.classList.contains('missing-ing')){
       user.myPantry.determineAmtNeeded(checkIngrRecipe);
       let returnMsg = user.myPantry.returnCookMessage();
-      makeModalMissing(returnMsg);
+      makeModalMissing(returnMsg, checkIngrRecipe);
     }
     else if(targetBtn.classList.contains('lets-cook')) {
       makeModal(checkIngrRecipe, myListContainer);
@@ -280,19 +281,22 @@ const showMyList = () => {
       <img class="recipe-img" src="${currRecipe.image}"/>
       <p>${currRecipe.name}</p>
       <div class="recipe-actions">
-        <button class="btn missing-ing id="missingIng">Needed?</button>
+      <button class="btn lets-cook hidden" id="letsCook">Cook!</button>
+        <button class="btn missing-ing" id="missingIng">Needed?</button>
         <button class="btn remove" id="addRecipe"></button>
         <button class="btn unfavorite favorite" id="favoriteRecipe"></button>
       </div>
     </section>`
     myListContainer.innerHTML += cardContent
+    missingIngBtn = document.getElementById('missingIng')
   } else if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length < 1 ) {
     cardContent =
     `<section class="list-recipe-card" id="${currRecipe.id}">
       <img class="recipe-img" src="${currRecipe.image}"/>
       <p>${currRecipe.name}</p>
       <div class="recipe-actions">
-        <button class="btn lets-cook id="letsCook">Cook!</button>
+        <button class="btn lets-cook" id="letsCook">Cook!</button>
+        <button class="btn missing-ing hidden" id="missingIng">Needed?</button>
         <button class="btn remove" id="addRecipe"></button>
         <button class="btn unfavorite favorite" id="favoriteRecipe"></button>
       </div>
@@ -307,38 +311,39 @@ const showMyList = () => {
 };
 
 
-const removeFromPantry = (userID, recipe) => {
-  recipe.ingredientsData.forEach(ingredient => {
-  fetch('http://localhost:3001/api/v1/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-  "userID": userID,
-  "ingredientID": ingredient.id,
-  "ingredientModification": -(ingredient.quantity.amount)
-})
-  })
-  .then(response => response.json())
-  .then(ingr => console.log(ingr));
-  })
-  // user.myPantry.addIngredientsByName()
-}
-
-const buyIngredients = (userID, ingredientsNeeded) => {
-  ingredientsNeeded.forEach(ingredient => {
-  fetch('http://localhost:3001/api/v1/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-  "userID": userID,
-  "ingredientID": ingredient.id,
-  "ingredientModification": ingredient.amountNeeded
-})
-  })
-  .then(response => response.json())
-  })
-  // user.myPantry.addIngredientsByName();
-}
+// const removeFromPantry = (userID, recipe) => {
+//   recipe.ingredientsData.forEach(ingredient => {
+//   fetch('http://localhost:3001/api/v1/users', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({
+//   "userID": userID,
+//   "ingredientID": ingredient.id,
+//   "ingredientModification": -(ingredient.quantity.amount)
+// })
+//   })
+//   .then(response => response.json())
+//   })
+//   user.myPantry.addIngredientsByName()
+//   // determineAmtNeeded(recipe)
+//   // showMyList()
+// }
+//
+// const buyIngredients = (userID, ingredientsNeeded) => {
+//   ingredientsNeeded.forEach(ingredient => {
+//   fetch('http://localhost:3001/api/v1/users', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({
+//   "userID": userID,
+//   "ingredientID": ingredient.id,
+//   "ingredientModification": ingredient.amountNeeded
+// })
+//   })
+//   .then(response => response.json())
+//   })
+//   user.myPantry.addIngredientsByName()
+// }
 
 const addToFavorites = (targetBtn, id) => {
   targetBtn.classList.remove('favorite')
@@ -361,7 +366,7 @@ const removeFromCookList = (targetBtn, likedRecipes, id) => {
 }
 
 const makeModal = (recipe, container) => {
-  console.log(recipe)
+  console.log('RETURN ID', recipe.id)
   const newModal = document.createElement('div');
   let checkModal = document.getElementById('modalContainer');
   if(checkModal !== null) {
@@ -388,7 +393,7 @@ const makeModal = (recipe, container) => {
           <h1>${recipe.name}</h1>
           <p class="howTo">${howTo}</p>
           <p>It will cost $${recipe.calculateCost()} to make this recipe.</p>
-          <button class="btn mark-cooked hidden"id="markCooked">Finshed!</button>
+          <button class="btn mark-cooked"id="markCooked">Finshed!</button>
           <button id="closeModal">Close</button>
         <div>
       </div>
@@ -397,27 +402,29 @@ const makeModal = (recipe, container) => {
     modalContainer = document.getElementById('modalContainer')
     closeModalBtn = document.getElementById('closeModal');
     markCookedBtn = document.getElementById('markCooked');
-    modalContainer.classList.add('show');
+    addClass(modalContainer, 'show')
+    // modalContainer.classList.add('show');
     closeModalBtn.addEventListener('click', function() {
-    modalContainer.classList.remove('show');
-    // clearCards('listRecipeContainer')
+    // modalContainer.classList.remove('show');
+    removeClass(modalContainer, 'show')
     });
     markCookedBtn.addEventListener('click', function() {
-    myListContainer.innerHTML = "";
-    user.myPantry.addIngredientsByName()
-    showMyList()
-    console.log('SHIT')
-    console.log('Janika',recipe.ingredientsData[0])
+      myListContainer.childNodes.forEach(elem => {
+        if(elem.id === recipe.id.toString()) {
+          console.log(elem)
+          let secondChild = elem.children[2];
+          addClass(secondChild.children[0], 'hidden')
+        // secondChild.children[0].classList.add('hidden')
+        removeClass(secondChild.children[1], 'hidden')
+        // secondChild.children[1].classList.remove('hidden')
+        }
+      })
     removeFromPantry(user.id, recipe);
-    // clearCards('listRecipeContainer')
-    // console.log('BEFORE:', user.myPantry.rawPantryData)
-    // user.myPantry.addIngredientsByName()
-    // console.log('AFTER:', user.myPantry.rawPantryData)
-    // showMyList()
+    user.myPantry.determineAmtNeeded(recipe);
     });
 }
 
-const makeModalMissing = (returnMsg) => {
+const makeModalMissing = (returnMsg, recipe) => {
   const newModal = document.createElement('div');
   let checkModal = document.getElementById('modalContainer');
   if(checkModal !== null) {
@@ -435,16 +442,24 @@ const makeModalMissing = (returnMsg) => {
   modalContainer = document.getElementById('modalContainer')
   closeModalBtn = document.getElementById('closeModal');
   buyIngBtn = document.getElementById('buyIng');
-  modalContainer.classList.add('show');
+  addClass(modalContainer, 'show')
+  // modalContainer.classList.add('show');
   closeModalBtn.addEventListener('click', function() {
-  modalContainer.classList.remove('show');
-  clearCards('listRecipeContainer');
-  showMyList();
+  removeClass(modalContainer, 'show');
   });
   buyIngBtn.addEventListener('click', function() {
-  console.log('POOP')
+  myListContainer.childNodes.forEach(elem => {
+    if(elem.id === recipe.id.toString()) {
+      console.log(elem)
+      let secondChild = elem.children[2];
+    // secondChild.children[0].classList.remove('hidden')
+    removeClass(secondChild.children[0], 'hidden');
+    addClass(secondChild.children[1], 'hidden');
+    // secondChild.children[1].classList.add('hidden')
+    }
+  })
   buyIngredients(user.id, user.myPantry.ingredientsNeeded);
-  user.myPantry.addIngredientsByName();
+  user.myPantry.determineAmtNeeded(recipe);
   });
 }
 
