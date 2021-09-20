@@ -1,5 +1,5 @@
-import './styles.css';
-import burger from './images/burger.png';
+import './styles.css'
+import './images/burger.png';
 import './images/favorite.svg';
 import './images/fridge.svg';
 import './images/home.svg';
