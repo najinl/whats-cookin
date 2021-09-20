@@ -189,17 +189,9 @@ describe('Build Pantry', () => {
     // console.log('length',userPantry.ingredientsNeeded)
     // console.log('RECIPE1',userPantry.determineIfCanCook(recipe1))
     // console.log(userPantry.determineIfCanCook(recipe3))
-    userPantry.determineAmtNeeded(recipe2)
-    console.log(userPantry.ingredientsNeeded)
-    // console.log('hi',userPantry.returnCookMessage(recipe2));
-    // console.log(userPantry.ingredientsNeeded)
-    // console.log(userPantry.determineIfCanCook(recipe1))
-    // console.log(userPantry.ingredientsNeeded)
-    console.log(userPantry.ingredientsById)
-    console.log(userPantry.ingredients)
-    // console.log(userPantry.ingredientInventory.ingredientsLibrary)
-    // expect(userPantry.ingredientInventory instanceof IngredientsLibrary).to.deep.equal(true);
-    // expect(userPantry.ingredientInventory).to.be.an.instanceof(IngredientsLibrary);
+    userPantry.determineAmtNeeded(recipe3)
+    console.log('INGS NEEDED:',userPantry.ingredientsNeeded)
+
     expect(userPantry.ingredientInventory).to.be.an('object');
   });
  })
@@ -243,8 +235,8 @@ describe('Missing Ingredients', () => {
     it('should store all missing ingredients from a recipe and the additionally needed quantity of that ingredient in an array', () => {
       userPantry.determineAmtNeeded(recipe1)
       expect(userPantry.ingredientsNeeded).to.deep.equal(
-        [ { name: 'salt', amountNeeded: 2 },
-          { name: 'egg albumen', amountNeeded: 1 }
+        [ { name: 'salt', amountNeeded: 2, id: 2047 },
+          { name: 'egg albumen', amountNeeded: 1, id: 1124 }
         ]
       )
     })
@@ -252,9 +244,9 @@ describe('Missing Ingredients', () => {
   it('should store all missing ingredients from a recipe and the additionally needed quantity of that ingredient in an array', () => {
     userPantry.determineAmtNeeded(recipe3)
     expect(userPantry.ingredientsNeeded).to.deep.equal(
-      [ { name: 'baking powder', amountNeeded: 2 },
-        { name: 'bell pepper', amountNeeded: 3 },
-        { name: 'marinated artichoke hearts', amountNeeded: 5 }
+      [ { name: 'baking powder', amountNeeded: 2, id: 18371},
+        { name: 'bell pepper', amountNeeded: 3, id: 11821},
+        { name: 'marinated artichoke hearts', amountNeeded: 5, id: 93828 }
       ]
     )
   })
