@@ -13,8 +13,7 @@ import Pantry from './classes/Pantry';
 import User from './classes/User';
 
 //global variables, instantiations of classes
-let ingredients, recipeRepository, recipe, user, pantry, displayRecipe, modalContainer, closeModalBtn, markCookedBtn, letsCookBtn, favoritedRecipes, likedRecipes,
-foundRecipeIngredients, foundRecipeNames
+let ingredients, recipeRepository, recipe, user, pantry, displayRecipe, modalContainer, closeModalBtn, markCookedBtn, buyIngBtn, letsCookBtn, favoritedRecipes, likedRecipes,foundRecipeIngredients, foundRecipeNames
 
 let homeNavBtn = document.getElementById('homeNav');
 let favNavBtn = document.getElementById('favNav');
@@ -26,7 +25,7 @@ let searchBtn = document.getElementById('searchIcon');
 let searchValues = document.getElementById('inputSearch');
 let favoritedContainer = document.getElementById('favoritedRecipeContainer');
 let myListContainer = document.getElementById('listRecipeContainer');
-let welcomename = document.getElementById('username')
+let welcomename = document.getElementById('username');
 
 //Fetch Calls
 const fetchData = () => {
@@ -35,9 +34,9 @@ const fetchData = () => {
 }
 
 const parseData = (data) => {
-  let userDataArray = data[0].usersData
-  let ingredientDataArray = data[1].ingredientsData
-  let recipeDataArray = data[2].recipeData
+  let userDataArray = data[0]
+  let ingredientDataArray = data[1]
+  let recipeDataArray = data[2]
   instantiation(userDataArray, ingredientDataArray, recipeDataArray)
   renderinfo()
 }
@@ -50,6 +49,7 @@ const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
     return new Recipe(recipe, ingredientDataArray)
   })
   user = new User(userDataArray[4], recipeRepository, ingredientDataArray);
+  console.log(user)
   user.myPantry.addIngredientsByName()
 }
 
@@ -222,8 +222,8 @@ const showCards = (data) => {
   })
 };
 
-const clearCards = () => {
-    let removeElement = document.getElementById('recipeContainer')
+const clearCards = (container) => {
+    let removeElement = document.getElementById(container)
     while (removeElement.firstChild) {
       removeElement.removeChild(removeElement.firstChild);
     }
@@ -257,7 +257,7 @@ const showMyList = () => {
     {
       user.myPantry.determineAmtNeeded(currRecipe)
     const listRecipeCard = document.createElement('div');
-    if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length > 4) {
+    if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length > 0) {
       console.log(user.myPantry.ingredientsNeeded)
     cardContent =
     `<section class="list-recipe-card" id="${currRecipe.id}">
@@ -270,7 +270,7 @@ const showMyList = () => {
       </div>
     </section>`
     myListContainer.innerHTML += cardContent
-  } else if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length < 4 ) {
+  } else if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length < 1 ) {
     cardContent =
     `<section class="list-recipe-card" id="${currRecipe.id}">
       <img class="recipe-img" src="${currRecipe.image}"/>
@@ -288,6 +288,40 @@ const showMyList = () => {
   addClass(recipeContainer, 'hidden');
   addClass(favoritedContainer, 'hidden');
 };
+
+
+const removeFromPantry = (userID, recipe) => {
+  recipe.ingredientsData.forEach(ingredient => {
+  fetch('http://localhost:3001/api/v1/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+  "userID": userID,
+  "ingredientID": ingredient.id,
+  "ingredientModification": -(ingredient.quantity.amount)
+})
+  })
+  .then(response => response.json())
+  .then(ingr => console.log(ingr));
+  })
+  // user.myPantry.addIngredientsByName()
+}
+
+const buyIngredients = (userID, ingredientsNeeded) => {
+  ingredientsNeeded.forEach(ingredient => {
+  fetch('http://localhost:3001/api/v1/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+  "userID": userID,
+  "ingredientID": ingredient.id,
+  "ingredientModification": ingredient.amountNeeded
+})
+  })
+  .then(response => response.json())
+  })
+  // user.myPantry.addIngredientsByName();
+}
 
 const addToFavorites = (targetBtn, id) => {
   targetBtn.classList.remove('favorite')
@@ -309,11 +343,8 @@ const removeFromCookList = (targetBtn, likedRecipes, id) => {
   user.removeFromMyList(likedRecipes, id)
 }
 
-// const removeFromPantry = () => {
-//
-// }
-
 const makeModal = (recipe, container) => {
+  console.log(recipe)
   const newModal = document.createElement('div');
   let checkModal = document.getElementById('modalContainer');
   if(checkModal !== null) {
@@ -350,7 +381,21 @@ const makeModal = (recipe, container) => {
     modalContainer.classList.add('show');
     closeModalBtn.addEventListener('click', function() {
     modalContainer.classList.remove('show');
-  });
+    // clearCards('listRecipeContainer')
+    });
+    markCookedBtn.addEventListener('click', function() {
+    myListContainer.innerHTML = "";
+    user.myPantry.addIngredientsByName()
+    showMyList()
+    console.log('SHIT')
+    console.log('Janika',recipe.ingredientsData[0])
+    removeFromPantry(user.id, recipe);
+    // clearCards('listRecipeContainer')
+    // console.log('BEFORE:', user.myPantry.rawPantryData)
+    // user.myPantry.addIngredientsByName()
+    // console.log('AFTER:', user.myPantry.rawPantryData)
+    // showMyList()
+    });
 }
 
 const makeModalMissing = (returnMsg) => {
@@ -364,15 +409,24 @@ const makeModalMissing = (returnMsg) => {
     <p class="modal" id="modal">
       ${returnMsg}
     </p>
+    <button id="buyIng">Buy Ingredients!</button>
     <button id="closeModal">Close</button>
   </div>`
   listRecipeContainer.innerHTML += modal
   modalContainer = document.getElementById('modalContainer')
   closeModalBtn = document.getElementById('closeModal');
+  buyIngBtn = document.getElementById('buyIng');
   modalContainer.classList.add('show');
   closeModalBtn.addEventListener('click', function() {
   modalContainer.classList.remove('show');
-});
+  clearCards('listRecipeContainer');
+  showMyList();
+  });
+  buyIngBtn.addEventListener('click', function() {
+  console.log('POOP')
+  buyIngredients(user.id, user.myPantry.ingredientsNeeded);
+  user.myPantry.addIngredientsByName();
+  });
 }
 
 const addClass = (element, classList) => {
@@ -387,7 +441,7 @@ const getSearchItems = () => {
   let search = searchValues.value
   foundRecipeIngredients = recipeRepository.filterByIngredients(search, ingredients.ingredientsLibrary)
   foundRecipeNames = recipeRepository.filterByName(search)
-   clearCards()
+   clearCards('recipeContainer')
    showCards(foundRecipeNames)
    showCards(foundRecipeIngredients)
   }
@@ -403,7 +457,7 @@ const getTags = ()  => {
   if(findChecks === 0) {
     showCards(recipe)
   } else {
-    clearCards()
+    clearCards('recipeContainer')
     showCards(newRecipes)
   }
 }

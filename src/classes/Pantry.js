@@ -24,31 +24,32 @@ class Pantry {
   }
 
 determineAmtNeeded(recipe) {
-let neededIngredients = recipe.ingredientsData.reduce((acc, ingredient) => {
-  this.ingredients.forEach(ingr => {
-    if(ingredient.id === ingr.ingredient && ingredient.quantity.amount > ingr.amount) {
-      acc.push({name: ingr.name,
-       amountNeeded: ingredient.quantity.amount - ingr.amount})
-    }
-  })
-return acc;
-},[])
+  let neededIngredients = recipe.ingredientsData.reduce((acc, ingredient) => {
+    this.ingredients.forEach(ingr => {
+      if(ingredient.id === ingr.ingredient && ingredient.quantity.amount > ingr.amount) {
+        acc.push({name: ingr.name,
+         amountNeeded: ingredient.quantity.amount - ingr.amount,
+       id: ingredient.id})
+      }
+    })
+  return acc;
+  },[])
 
-recipe.ingredientsData.forEach(ingredient => {
-    if(!this.ingredientsById.includes(ingredient.id)) {
-      neededIngredients.push({name: ingredient.id, amountNeeded: ingredient.quantity.amount})
-    }
-})
-
-neededIngredients.forEach(ingredient => {
-  this.ingredientInventory.ingredientsLibrary.forEach(ingr => {
-  if(ingredient.name === ingr.id) {
-    ingredient.name = ingr.name
-  }
+  recipe.ingredientsData.forEach(ingredient => {
+      if(!this.ingredientsById.includes(ingredient.id)) {
+        neededIngredients.push({name: ingredient.id, amountNeeded: ingredient.quantity.amount, id: ingredient.id})
+      }
   })
-})
-this.ingredientsNeeded = neededIngredients;
-// console.log('length',this.ingredientsNeeded.length)
+
+  neededIngredients.forEach(ingredient => {
+    this.ingredientInventory.ingredientsLibrary.forEach(ingr => {
+    if(ingredient.name === ingr.id) {
+      ingredient.name = ingr.name
+    }
+    })
+  })
+  this.ingredientsNeeded = neededIngredients;
+  // console.log('length',this.ingredientsNeeded.length)
 }
 
 returnCookMessage() {
