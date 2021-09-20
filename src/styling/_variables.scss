@@ -1,0 +1,13 @@
+$main-background: blueviolet;
+$main-font: 'Comfortaa', cursive;
+
+
+@mixin mainFlexStyle() {
+  display: flex;
+  align-items: center;
+};
+
+@mixin squareStyle($number) {
+  height: $number;
+  width: $number;
+}

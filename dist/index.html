@@ -9,13 +9,13 @@
   <body>
     <header>
       <div id="welcomeName"> 
-        <h1 id="username"></h1>
+        <h1 id="username"> What's up, Oscar?</h1>
       </div>
       <div class="search-wrapper">
         <img class="search-icon" id="searchIcon" src="./images/search.svg" alt="magnifying glass"/>
-        <input type="search" class="input-search" id="inputSearch" placeholder="onions">
+        <input aria-label="search for recipes" type="search" class="input-search" id="inputSearch" placeholder="onions">
       </div>
-      <button class="home-btn" id="homeNav">
+      <button aria-label="home" class="home-btn" id="homeNav">
         <img class="home-img" src="./images/home.svg" alt="home icon"/>
         <div class="nav-item">Home</div>
       </button>
@@ -29,76 +29,75 @@
       </button>
     </header>
     <section class="main-page">
-      <section class="left-pane" id="leftPane">
-        <section class="search-recipe" id="tagList">
-          <h2 class="filter-list"> <img src="./images/burger.png" class="burger-img" alt="burger icon"> Recipe Type
+      <section class="left-pane">
+        <section class="search-recipe">
+          <h2> <img src="./images/burger.png" class="burger-img" alt="burger icon"> Recipe Type
           </h2>
           <label class="tag-list">
             <!--The li items below will need to be dynamically manipulated to list all of the tags from our API -->
             <ul class="allchecks">
-              <li><input type="checkbox" name="check" value="antipasti" class="checked-tag" id="antipasti">
+              <li><input aria-label="antipasta" type="checkbox" name="check" value="antipasti" class="checked-tag" id="antipasti">
                 <label for="antipasti"> Antipasti</label>
               </li>
-              <li><input type="checkbox" name="check" value=“starter” class="checked-tag" id="starter">
+              <li><input aria-label="starter" type="checkbox" name="check" value=“starter” class="checked-tag" id="starter">
                 <label for=“starter”> Starter</label>
               </li>
-              <li><input type="checkbox" name="check" value="snack" class="checked-tag" id="snack">
+              <li><input  aria-label="snack" type="checkbox" name="check" value="snack" class="checked-tag" id="snack">
                 <label for="snack"> Snack</label>
               </li>
-              <li><input type="checkbox" name="check" value="appetizer" class="checked-tag" id="appetizer">
+              <li><input aria-label="appetizer"type="checkbox" name="check" value="appetizer" class="checked-tag" id="appetizer">
                 <label for="appetizer"> Appetizer</label>
               </li>
-              <li><input type="checkbox" name="check" value="antipasto" class="checked-tag" id="antipasto">
+              <li><input aria-label="antipasto" type="checkbox" name="check" value="antipasto" class="checked-tag" id="antipasto">
                 <label for="antipasto"> Antipasto</label>
               </li>
-              <li><input type="checkbox" name="check" value="hor d’oeuvre" class="checked-tag" id="hor d’oeuvre">
+              <li><input aria-label="hor d'ouevre" type="checkbox" name="check" value="hor d’oeuvre" class="checked-tag" id="hor d’oeuvre">
                 <label for="hor d’oeuvre"> Hor D’oeuvre</label>
               </li>
-              <li><input type="checkbox" name="check" value="lunch" class="checked-tag" id="lunch">
+              <li><input aria-label="lunch" type="checkbox" name="check" value="lunch" class="checked-tag" id="lunch">
                 <label for="lunch"> Lunch</label>
               </li>
-              <li><input type="checkbox" name="check" value="main course" class="checked-tag" id="main course">
+              <li><input aria-label="main course" type="checkbox" name="check" value="main course" class="checked-tag" id="main course">
                 <label for="main course"> Main Course</label>
               </li>
-              <li><input type="checkbox" name="check" value="main dish" class="checked-tag" id="main dish">
+              <li><input aria-label="main dish" type="checkbox" name="check" value="main dish" class="checked-tag" id="main dish">
                 <label for="main dish"> Main Dish</label>
               </li>
-              <li><input type="checkbox" name="check" value="dinner" class="checked-tag" id="dinner">
+              <li><input aria-label="dinner" type="checkbox" name="check" value="dinner" class="checked-tag" id="dinner">
                 <label for="dinner"> Dinner</label>
               </li>
-              <li><input type="checkbox" name="check" value="sauce" class="checked-tag" id="sauce">
+              <li><input aria-label="sauce" type="checkbox" name="check" value="sauce" class="checked-tag" id="sauce">
                 <label for="sauce"> Sauce</label>
               </li>
-              <li><input type="checkbox" name="check" value="side dish" class="checked-tag" id="side dish">
+              <li><input aria-label="side dish" type="checkbox" name="check" value="side dish" class="checked-tag" id="side dish">
                 <label for="side dish"> Side Dish</label>
               </li>
-              <li><input type="checkbox" name="check" value="morning meal" class="checked-tag" id="morning meal">
+              <li><input aria-label="morning meal" type="checkbox" name="check" value="morning meal" class="checked-tag" id="morning meal">
                 <label for="morning meal"> Morning Meal</label>
               </li>
-              <li><input type="checkbox" name="check" value="brunch" class="checked-tag" id="brunch">
+              <li><input aria-label="brunch" type="checkbox" name="check" value="brunch" class="checked-tag" id="brunch">
                 <label for="brunch"> Brunch</label>
               </li>
-              <li><input type="checkbox" name="check" value="breakfast" class="checked-tag" id="breakfast">
+              <li><input aria-label="breakfast" type="checkbox" name="check" value="breakfast" class="checked-tag" id="breakfast">
                 <label for="breakfast"> Breakfast</label>
               </li>
-              <li><input type="checkbox" name="check" value="salad" class="checked-tag" id="salad">
+              <li><input aria-label="salad" type="checkbox" name="check" value="salad" class="checked-tag" id="salad">
                 <label for="salad"> Salad</label>
               </li>
-              <li><input type="checkbox" name="check" value="condiment" class="checked-tag" id="condiment">
+              <li><input aria-label="condiment" type="checkbox" name="check" value="condiment" class="checked-tag" id="condiment">
                 <label for="condiment"> Condiment</label>
               </li>
-              <li><input type="checkbox" name="check" value="dip" class="checked-tag" id="dip">
+              <li><input aria-label="dip" type="checkbox" name="check" value="dip" class="checked-tag" id="dip">
                 <label for="dip"> Dip</label>
               </li>
-              <li><input type="checkbox" name="check" value="spread" class="checked-tag" id="spread">
+              <li><input aria-label="spread" type="checkbox" name="check" value="spread" class="checked-tag" id="spread">
                 <label for="spread"> Spread</label>
               </li>
             </ul>
-            <button aria-label="Filter recipes by tags" class="filter-btn" id="filterBtn">Filter Recipes</button>
+            <button aria-label="filter recipe by tag" class="filter-btn" id="filterBtn">Filter Recipes</button>
         </label>
         </section>
-        <section class="my-pantry" id="myPantry">
-          
+        <section aria-label="my pantry" class="my-pantry">
         </section>
       </section>
       <section class="right-pane">
@@ -114,5 +113,5 @@
     <script src="../data"></script>
     <!-- <script src="./scripts.js"></script> -->
   </script>
-  </body>
+  <script src="main.bundle.js"></script></body>
 </html>

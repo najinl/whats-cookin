@@ -17,8 +17,9 @@ filterByTags(userTag){
 
 filterByName(userGeneratedName) {
   let nameRecipes = [];
-  let findName = this.recipeRepo.forEach(recipe => {
-    if(recipe.name.includes(userGeneratedName)) {
+  this.recipeRepo.forEach(recipe => {
+    let recipeName = recipe.name.toLowerCase()
+    if(recipeName.includes(userGeneratedName)) {
       nameRecipes.push(recipe)
     }
   })
