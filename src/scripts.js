@@ -115,15 +115,20 @@ recipeContainer.addEventListener('click', (e) => {
   if(targetBtn.closest('button')) {
     if(targetBtn.classList.contains('favorite')) {
       addToFavorites(targetBtn, recipeID)
+      targetBtn.ariaLabel = 'remove from favorites'
+
     }
     else if(targetBtn.classList.contains('unfavorite') && !targetBtn.classList.contains('favorite')) {
       removeFromFavorites(targetBtn, favoritedRecipes, recipeID);
+      targetBtn.ariaLabel = 'add to favorites'
     }
     else if(targetBtn.classList.contains('add') && targetBtn.classList.contains('remove')) {
       addToCookList(targetBtn, recipeID);
+      targetBtn.ariaLabel = 'remove from cooklist'
     }
     else if(targetBtn.classList.contains('remove') && !targetBtn.classList.contains('add')){
       removeFromCookList(targetBtn, likedRecipes, recipeID);
+      targetBtn.ariaLabel = 'add to cooklist'
     }
     else if(targetBtn.closest('#viewRecipe')) {
       let filteredRec = recipe.filter((oneRecipe) => {
@@ -141,6 +146,7 @@ favoritedContainer.addEventListener('click', (e) => {
 
   if(targetBtn.classList.contains('unfavorite')) {
       removeFromFavorites(targetBtn, favoritedRecipes, recipeID);
+      targetBtn.ariaLabel = 'add to favorites'
     }
     else if(targetBtn.classList.contains('unfavorite') && targetBtn.classList.contains('favorite')) {
       addToFavorites(targetBtn, favoritedRecipes, recipeID);
@@ -337,15 +343,11 @@ const buyIngredients = (userID, ingredientsNeeded) => {
 const addToFavorites = (targetBtn, id) => {
   targetBtn.classList.remove('favorite')
   user.favoriteRecipes(id)
-  let changeAria = document.getElementById('favoriteRecipe')
-  changeAria.ariaLabel = 'add to favorites'
 };
 
 const removeFromFavorites = (targetBtn, favoritedRecipes, id) => {
   targetBtn.classList.add('favorite')
   user.unfavoriteRecipes(favoritedRecipes, id) 
-  let changeAria = document.getElementById('favoriteRecipe')
-  changeAria.ariaLabel = 'remove from favorites'
 }
 
 const addToCookList = (targetBtn, id) => {
@@ -498,8 +500,8 @@ const showPantryItems = () => {
   if(myPantry.children.length < 1) {
   let pantryContent = 
   `<section class="users-pantry" id="usersPantry">
-      <h2 class="pantry-title">${user.name}'s Pantry Items</h2>
-      <ul class="pantry-items" id="pantryUL">
+      <h2 aria-label="${user.name}'s Pantry Items" class="pantry-title">${user.name}'s Pantry Items</h2>
+      <ul aria-label="${inUserPantry}" class="pantry-items" id="pantryUL">
       ${inUserPantry}
       </ul>
     </section>`
