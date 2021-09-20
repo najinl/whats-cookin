@@ -15,3 +15,35 @@ export function fetchRecipes() {
     .then(response => response.json())
     .then(data => data);
 }
+
+export const removeFromPantry = (userID, recipe) => {
+  recipe.ingredientsData.forEach(ingredient => {
+  fetch('http://localhost:3001/api/v1/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+  "userID": userID,
+  "ingredientID": ingredient.id,
+  "ingredientModification": -(ingredient.quantity.amount)
+})
+  })
+  .then(response => response.json())
+  })
+  user.myPantry.addIngredientsByName()
+}
+
+export const buyIngredients = (userID, ingredientsNeeded) => {
+  ingredientsNeeded.forEach(ingredient => {
+  fetch('http://localhost:3001/api/v1/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+  "userID": userID,
+  "ingredientID": ingredient.id,
+  "ingredientModification": ingredient.amountNeeded
+})
+  })
+  .then(response => response.json())
+  })
+  user.myPantry.addIngredientsByName()
+}
