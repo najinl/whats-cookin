@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import Pantry from '../src/classes/Pantry';
 import IngredientsLibrary from '../src/classes/IngredientsRepository';
-// import Recipe from '../src/classes/Recipe';
-// import RecipeRepository from '../src/classes/RecipeRepository';
+
 
 
 describe('Pantry', () => {
@@ -182,13 +181,6 @@ describe('Build Pantry', () => {
   });
 
   it('should have an ingredients inventory', () => {
-    // console.log('PANTRY RAW:',userPantry.rawPantryData)
-    // console.log('INGREDIENTS HAVE:', userPantry.ingredients)
-    // console.log('Hi',userPantry.determineAmtNeeded(recipe1));
-    // console.log('hi',userPantry.determineAmtNeeded(recipe2));
-    // console.log('length',userPantry.ingredientsNeeded)
-    // console.log('RECIPE1',userPantry.determineIfCanCook(recipe1))
-    // console.log(userPantry.determineIfCanCook(recipe3))
     userPantry.determineAmtNeeded(recipe3)
     console.log('INGS NEEDED:',userPantry.ingredientsNeeded)
 
