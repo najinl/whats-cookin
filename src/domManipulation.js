@@ -1,26 +1,29 @@
 
+import {ingredients, recipeRepository, recipe, user, pantry, displayRecipe, modalContainer, closeModalBtn, markCookedBtn, buyIngBtn, missingIngBtn, letsCookBtn, favoritedRecipes, likedRecipes,foundRecipeIngredients, foundRecipeNames} from './scripts'
+let welcomename = document.getElementById('username')
+
+
+
 let domManipulation  = {
-
 showCards(data) {
-  data.map(oneRecipe =>
-    {
-    const recipecard = document.createElement('div');
-    recipecard.classList = 'recipe-card';
-
-    let cardContent =
-    `<section class="recipe-card" id="${oneRecipe.id}">
-      <img class="recipe-img" src="${oneRecipe.image}"/>
-      <p>${oneRecipe.name}</p>
-      <div class="recipe-actions">
-        <button aria-label="view ${oneRecipe.name} recipe" class="view-me" id="viewRecipe">View</button>
-        <button aria-label="add ${oneRecipe.name} to cook list" class="btn remove add"></button>
-        <button aria-label="add ${oneRecipe.name} to favorites" class="btn unfavorite favorite" id="favoriteRecipe"></button>
-      </div>
-    </section>`
-    recipeContainer.innerHTML += cardContent
-  })
-},
-
+    data.map(oneRecipe =>
+      {
+      const recipecard = document.createElement('div');
+      recipecard.classList = 'recipe-card';
+  
+      let cardContent =
+      `<section class="recipe-card" id="${oneRecipe.id}">
+        <img class="recipe-img" src="${oneRecipe.image}"/>
+        <p>${oneRecipe.name}</p>
+        <div class="recipe-actions">
+          <button aria-label="view ${oneRecipe.name} recipe" class="view-me" id="viewRecipe">View</button>
+          <button aria-label="add ${oneRecipe.name} to cook list" class="btn remove add"></button>
+          <button aria-label="add ${oneRecipe.name} to favorites" class="btn unfavorite favorite" id="favoriteRecipe"></button>
+        </div>
+      </section>`
+      recipeContainer.innerHTML += cardContent
+    })
+  },
 
 clearCards(container) {
   let removeElement = document.getElementById(container)
@@ -211,21 +214,13 @@ user.myPantry.determineAmtNeeded(recipe);
 });
 },
 
-addClass(element, classList) {
-element.classList.add(classList);
-},
-
-removeClass(element, classList) {
-element.classList.remove(classList);
-},
-
 getSearchItems() {
 let search = searchValues.value
 foundRecipeIngredients = recipeRepository.filterByIngredients(search, ingredients.ingredientsLibrary)
 foundRecipeNames = recipeRepository.filterByName(search)
  clearCards('recipeContainer')
- showCards(foundRecipeNames)
- showCards(foundRecipeIngredients)
+ this.showCards(foundRecipeNames)
+ this.showCards(foundRecipeIngredients)
 },
 
 getTags() {
@@ -237,21 +232,28 @@ checkBox.forEach((checkbox) => {
 })
 let newRecipes = recipeRepository.filterByTags(checkedElements)
 if(findChecks === 0) {
-  showCards(recipe)
+  this.showCards(recipe)
 } else {
   clearCards('recipeContainer')
-  showCards(newRecipes)
+  this.showCards(newRecipes)
 }
 },
 
-renderinfo() {
-showCards(recipe)
-},
+addClass(element, classList) {
+  element.classList.add(classList);
+  },
+  
+removeClass(element, classList) {
+  element.classList.remove(classList);
+  },
 
-renderName()  {
-const renderedText = `What's cookin ${user.name}?`;
-welcomename.innerText += renderedText
-},
+renderName() {
+    const renderedText = `What's cookin ${user.name}?`;
+    welcomename.innerText += renderedText
+    },
+
+
+
 
 
 showPantryItems() {
@@ -270,10 +272,7 @@ let pantryContent =
   </section>`
   myPantry.innerHTML += pantryContent
 } 
-}
-
-
-  
+}  
 }
 
 export default domManipulation;
