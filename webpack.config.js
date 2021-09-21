@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const sass = require('sass');
+// const sass = require('sass');
 
 module.exports = {
   entry: './src/scripts.js',
@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
