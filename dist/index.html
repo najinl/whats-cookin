@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="./styles.css"> -->
+    <title>Whats Cookin</title>
+  </head>
+  <body>
+    <header>
+      <div id="welcomeName"> 
+        <h1 id="username"> What's up, Oscar?</h1>
+      </div>
+      <div class="search-wrapper">
+        <img class="search-icon" id="searchIcon" src="./images/search.svg" alt="magnifying glass"/>
+        <input aria-label="search for recipes" type="search" class="input-search" id="inputSearch" placeholder="onions">
+      </div>
+      <button aria-label="home" class="home-btn" id="homeNav">
+        <img class="home-img" src="./images/home.svg" alt="home icon"/>
+        <div class="nav-item">Home</div>
+      </button>
+      <button class="favorites-btn" id="favNav">
+        <img class="fav-img" src="./images/favorite.svg" alt="heart icon"/>
+        <div class="nav-item">My Favorites</div>
+      </button>
+      <button class="list-btn" id="listNav">
+        <img class="list-img" src="./images/list.svg" alt="list icon"/>
+        <div class="nav-item">My List</div>
+      </button>
+    </header>
+    <section class="main-page">
+      <section class="left-pane">
+        <section class="search-recipe">
+          <h2> <img src="./images/burger.png" class="burger-img" alt="burger icon"> Recipe Type
+          </h2>
+          <label class="tag-list">
+            <!--The li items below will need to be dynamically manipulated to list all of the tags from our API -->
+            <ul class="allchecks">
+              <li><input aria-label="antipasta" type="checkbox" name="check" value="antipasti" class="checked-tag" id="antipasti">
+                <label for="antipasti"> Antipasti</label>
+              </li>
+              <li><input aria-label="starter" type="checkbox" name="check" value=“starter” class="checked-tag" id="starter">
+                <label for=“starter”> Starter</label>
+              </li>
+              <li><input  aria-label="snack" type="checkbox" name="check" value="snack" class="checked-tag" id="snack">
+                <label for="snack"> Snack</label>
+              </li>
+              <li><input aria-label="appetizer"type="checkbox" name="check" value="appetizer" class="checked-tag" id="appetizer">
+                <label for="appetizer"> Appetizer</label>
+              </li>
+              <li><input aria-label="antipasto" type="checkbox" name="check" value="antipasto" class="checked-tag" id="antipasto">
+                <label for="antipasto"> Antipasto</label>
+              </li>
+              <li><input aria-label="hor d'ouevre" type="checkbox" name="check" value="hor d’oeuvre" class="checked-tag" id="hor d’oeuvre">
+                <label for="hor d’oeuvre"> Hor D’oeuvre</label>
+              </li>
+              <li><input aria-label="lunch" type="checkbox" name="check" value="lunch" class="checked-tag" id="lunch">
+                <label for="lunch"> Lunch</label>
+              </li>
+              <li><input aria-label="main course" type="checkbox" name="check" value="main course" class="checked-tag" id="main course">
+                <label for="main course"> Main Course</label>
+              </li>
+              <li><input aria-label="main dish" type="checkbox" name="check" value="main dish" class="checked-tag" id="main dish">
+                <label for="main dish"> Main Dish</label>
+              </li>
+              <li><input aria-label="dinner" type="checkbox" name="check" value="dinner" class="checked-tag" id="dinner">
+                <label for="dinner"> Dinner</label>
+              </li>
+              <li><input aria-label="sauce" type="checkbox" name="check" value="sauce" class="checked-tag" id="sauce">
+                <label for="sauce"> Sauce</label>
+              </li>
+              <li><input aria-label="side dish" type="checkbox" name="check" value="side dish" class="checked-tag" id="side dish">
+                <label for="side dish"> Side Dish</label>
+              </li>
+              <li><input aria-label="morning meal" type="checkbox" name="check" value="morning meal" class="checked-tag" id="morning meal">
+                <label for="morning meal"> Morning Meal</label>
+              </li>
+              <li><input aria-label="brunch" type="checkbox" name="check" value="brunch" class="checked-tag" id="brunch">
+                <label for="brunch"> Brunch</label>
+              </li>
+              <li><input aria-label="breakfast" type="checkbox" name="check" value="breakfast" class="checked-tag" id="breakfast">
+                <label for="breakfast"> Breakfast</label>
+              </li>
+              <li><input aria-label="salad" type="checkbox" name="check" value="salad" class="checked-tag" id="salad">
+                <label for="salad"> Salad</label>
+              </li>
+              <li><input aria-label="condiment" type="checkbox" name="check" value="condiment" class="checked-tag" id="condiment">
+                <label for="condiment"> Condiment</label>
+              </li>
+              <li><input aria-label="dip" type="checkbox" name="check" value="dip" class="checked-tag" id="dip">
+                <label for="dip"> Dip</label>
+              </li>
+              <li><input aria-label="spread" type="checkbox" name="check" value="spread" class="checked-tag" id="spread">
+                <label for="spread"> Spread</label>
+              </li>
+            </ul>
+            <button aria-label="filter recipe by tag" class="filter-btn" id="filterBtn">Filter Recipes</button>
+        </label>
+        </section>
+        <section aria-label="my pantry" class="my-pantry">
+        </section>
+      </section>
+      <section class="right-pane">
+        <section class='all-recipes' id="recipeContainer">
+          <!-- cards here -->
+        </section>
+        <section class='favorited-recipes' id="favoritedRecipeContainer">
+          <!-- favorite cards here -->
+      </section>
+      <section class='cook-list-recipes' id="listRecipeContainer">
+      </section>
+    </section>
+    <script src="../data"></script>
+    <!-- <script src="./scripts.js"></script> -->
+  </script>
+  <script src="main.bundle.js"></script></body>
+</html>
