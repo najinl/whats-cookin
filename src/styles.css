@@ -295,7 +295,7 @@ ul {
   /* background-color: rgba(0, 0, 0, 0.3); */
   /* position: fixed; */
   /* top: 20%; /*<----changed from 0 to 20%*/
-  /* left: 0; */ 
+  /* left: 0; */
   height: 300px;
   width: 100vh;
   display: flex;
@@ -306,7 +306,7 @@ ul {
   pointer-events: none;
   position: absolute;
   left: 40%;
-  top: 50%; 
+  top: 50%;
   margin-left: -150px;
   margin-top: -150px;
 }

@@ -1,5 +1,5 @@
-import './styles.css';
-import burger from './images/burger.png';
+import './styles.css'
+import './images/burger.png';
 import './images/favorite.svg';
 import './images/fridge.svg';
 import './images/home.svg';
@@ -26,7 +26,10 @@ let searchBtn = document.getElementById('searchIcon');
 let searchValues = document.getElementById('inputSearch');
 let favoritedContainer = document.getElementById('favoritedRecipeContainer');
 let myListContainer = document.getElementById('listRecipeContainer');
-let welcomename = document.getElementById('username');
+let welcomename = document.getElementById('username')
+let myPantry = document.getElementById('myPantry')
+let leftPane = document.getElementById('leftPane')
+let usersPantry = document.getElementById('usersPantry')
 
 //Fetch Calls
 const fetchData = () => {
@@ -50,7 +53,7 @@ const instantiation = (userDataArray, ingredientDataArray, recipeDataArray) => {
     return new Recipe(recipe, ingredientDataArray)
   })
   user = new User(userDataArray[4], recipeRepository, ingredientDataArray);
-  console.log(user)
+  renderName()
   user.myPantry.addIngredientsByName()
 }
 
@@ -76,8 +79,10 @@ homeNavBtn.addEventListener('click', () => {
   removeClass(listNavBtn, 'hidden');
   addClass(favoritedContainer, 'hidden');
   removeClass(recipeContainer, 'hidden');
+  addClass(myPantry, 'hidden');
+  removeClass(tagList, 'hidden');
   refreshFavorited();
-  refreshLiked()
+  refreshLiked();
 })
 
 favNavBtn.addEventListener('click', () => {
@@ -86,14 +91,19 @@ favNavBtn.addEventListener('click', () => {
   addClass(favNavBtn, 'hidden');
   removeClass(homeNavBtn, 'hidden');
   removeClass(listNavBtn, 'hidden');
+  removeClass(tagList, 'hidden')
   showFavorites();
 })
 
 listNavBtn.addEventListener('click', () => {
   addClass(listNavBtn, 'hidden');
   addClass(recipeContainer, 'hidden');
-  removeClass(homeNavBtn, 'hidden')
-  removeClass(favNavBtn, 'hidden')
+  removeClass(homeNavBtn, 'hidden');
+  removeClass(favNavBtn, 'hidden');
+  addClass(tagList, 'hidden');
+
+  removeClass(myPantry, 'hidden');
+  showPantryItems();
   showMyList()
 });
 
@@ -106,15 +116,20 @@ recipeContainer.addEventListener('click', (e) => {
   if(targetBtn.closest('button')) {
     if(targetBtn.classList.contains('favorite')) {
       addToFavorites(targetBtn, recipeID)
+      targetBtn.ariaLabel = 'remove from favorites'
+
     }
     else if(targetBtn.classList.contains('unfavorite') && !targetBtn.classList.contains('favorite')) {
       removeFromFavorites(targetBtn, favoritedRecipes, recipeID);
+      targetBtn.ariaLabel = 'add to favorites'
     }
     else if(targetBtn.classList.contains('add') && targetBtn.classList.contains('remove')) {
       addToCookList(targetBtn, recipeID);
+      targetBtn.ariaLabel = 'remove from cooklist'
     }
     else if(targetBtn.classList.contains('remove') && !targetBtn.classList.contains('add')){
       removeFromCookList(targetBtn, likedRecipes, recipeID);
+      targetBtn.ariaLabel = 'add to cooklist'
     }
     else if(targetBtn.closest('#viewRecipe')) {
       let filteredRec = recipe.filter((oneRecipe) => {
@@ -132,6 +147,7 @@ favoritedContainer.addEventListener('click', (e) => {
 
   if(targetBtn.classList.contains('unfavorite')) {
       removeFromFavorites(targetBtn, favoritedRecipes, recipeID);
+      targetBtn.ariaLabel = 'add to favorites'
     }
     else if(targetBtn.classList.contains('unfavorite') && targetBtn.classList.contains('favorite')) {
       addToFavorites(targetBtn, favoritedRecipes, recipeID);
@@ -202,7 +218,6 @@ let recipeCard = recipeContainer.querySelectorAll('.recipe-card');
   })
 }
 
-//Functions
 const showCards = (data) => {
   data.map(oneRecipe =>
     {
@@ -214,9 +229,9 @@ const showCards = (data) => {
       <img class="recipe-img" src="${oneRecipe.image}"/>
       <p>${oneRecipe.name}</p>
       <div class="recipe-actions">
-        <button class="view-me" id="viewRecipe">View</button>
-        <button class="btn remove add"></button>
-        <button class="btn unfavorite favorite"></button>
+        <button aria-label="view ${oneRecipe.name} recipe" class="view-me" id="viewRecipe">View</button>
+        <button aria-label="add ${oneRecipe.name} to cook list" class="btn remove add"></button>
+        <button aria-label="add ${oneRecipe.name} to favorites" class="btn unfavorite favorite" id="favoriteRecipe"></button>
       </div>
     </section>`
     recipeContainer.innerHTML += cardContent
@@ -289,53 +304,19 @@ const showMyList = () => {
     letsCookBtn = document.getElementById('letsCook');
   }
   })
+
   addClass(recipeContainer, 'hidden');
   addClass(favoritedContainer, 'hidden');
 };
 
-
-// const removeFromPantry = (userID, recipe) => {
-//   recipe.ingredientsData.forEach(ingredient => {
-//   fetch('http://localhost:3001/api/v1/users', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({
-//   "userID": userID,
-//   "ingredientID": ingredient.id,
-//   "ingredientModification": -(ingredient.quantity.amount)
-// })
-//   })
-//   .then(response => response.json())
-//   })
-//   user.myPantry.addIngredientsByName()
-//   // determineAmtNeeded(recipe)
-//   // showMyList()
-// }
-//
-// const buyIngredients = (userID, ingredientsNeeded) => {
-//   ingredientsNeeded.forEach(ingredient => {
-//   fetch('http://localhost:3001/api/v1/users', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({
-//   "userID": userID,
-//   "ingredientID": ingredient.id,
-//   "ingredientModification": ingredient.amountNeeded
-// })
-//   })
-//   .then(response => response.json())
-//   })
-//   user.myPantry.addIngredientsByName()
-// }
-
 const addToFavorites = (targetBtn, id) => {
   targetBtn.classList.remove('favorite')
-  user.favoriteRecipes(id);
+  user.favoriteRecipes(id)
 };
 
 const removeFromFavorites = (targetBtn, favoritedRecipes, id) => {
   targetBtn.classList.add('favorite')
-  user.unfavoriteRecipes(favoritedRecipes, id);
+  user.unfavoriteRecipes(favoritedRecipes, id)
 }
 
 const addToCookList = (targetBtn, id) => {
@@ -347,6 +328,7 @@ const removeFromCookList = (targetBtn, likedRecipes, id) => {
   targetBtn.classList.add('add')
   user.removeFromMyList(likedRecipes, id)
 }
+
 
 const makeModal = (recipe, container) => {
   console.log('RETURN ID', recipe.id)
@@ -360,15 +342,17 @@ const makeModal = (recipe, container) => {
   })
   let gatheredIngredients = recipe.gatherIngredients()
   let styleIngredientsList = gatheredIngredients.map(ingredient => {
-    return `${ingredient}<br>`
-  })
+    return `<li class="ingredient-list">${ingredient}</li>`
+  }).join(" ")
   let modal =
-    `<div class="modal-container" id="modalContainer">
+    `<div role="dialog" aria-labelledby="dialog-title" class="modal-container" id="modalContainer">
       <div class="modal" id="modal">
         <section class="ingredients-picture">
           <img class="modal-recipe-img" src="${recipe.image}"/>
           <h2> Ingredients </h2>
-          <p>${styleIngredientsList}</p>
+          <ul>
+          ${styleIngredientsList}
+          </ul>
         </section>
         <div class="modal-text">
           <h1>${recipe.name}</h1>
@@ -479,4 +463,27 @@ const getTags = ()  => {
 
 const renderinfo = () => {
   showCards(recipe)
+}
+
+const renderName = () => {
+  const renderedText = `What's cookin ${user.name}?`;
+  welcomename.innerText += renderedText
+}
+
+
+const showPantryItems = () => {
+  user.myPantry.addIngredientsByName();
+  let inUserPantry = user.myPantry.ingredients.map(ingredient => {
+   return `<li>${ingredient.name}(${ingredient.amount})</li>`
+  }).join(" ")
+  if(myPantry.children.length === 0) {
+  let pantryContent =
+  `<section class="users-pantry" id="usersPantry">
+      <h2 aria-label="${user.name}'s Pantry Items" class="pantry-title">${user.name}'s Pantry Items</h2>
+      <ul aria-label="${inUserPantry}" class="pantry-items" id="pantryUL">
+      ${inUserPantry}
+      </ul>
+    </section>`
+    myPantry.innerHTML += pantryContent
+  }
 }

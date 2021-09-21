@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="./styles.css"> -->
+    <link rel="stylesheet" href="./styles.css">
     <title>Whats Cookin</title>
   </head>
   <body>
     <header>
-      <div id="welcomeName"> 
-        <h1 id="username"> What's up, Oscar?</h1>
+      <div id="welcomeName">
+        <h1 id="username"></h1>
       </div>
       <div class="search-wrapper">
         <img class="search-icon" id="searchIcon" src="./images/search.svg" alt="magnifying glass"/>
@@ -29,9 +29,9 @@
       </button>
     </header>
     <section class="main-page">
-      <section class="left-pane">
-        <section class="search-recipe">
-          <h2> <img src="./images/burger.png" class="burger-img" alt="burger icon"> Recipe Type
+      <section class="left-pane" id="leftPane">
+        <section class="search-recipe" id="tagList">
+          <h2 class="filter-list"> <img src="./images/burger.png" class="burger-img" alt="burger icon"> Recipe Type
           </h2>
           <label class="tag-list">
             <!--The li items below will need to be dynamically manipulated to list all of the tags from our API -->
@@ -94,10 +94,10 @@
                 <label for="spread"> Spread</label>
               </li>
             </ul>
-            <button class="filter-btn" id="filterBtn">Filter Recipes</button>
+            <button aria-label="Filter recipes by tags" class="filter-btn" id="filterBtn">Filter Recipes</button>
         </label>
         </section>
-        <section class="my-pantry">
+        <section class="my-pantry" id="myPantry">
         </section>
       </section>
       <section class="right-pane">
