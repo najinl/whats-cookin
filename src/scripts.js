@@ -274,7 +274,6 @@ const showMyList = () => {
       user.myPantry.determineAmtNeeded(currRecipe)
     const listRecipeCard = document.createElement('div');
     if(likedRecipes.includes(currRecipe.id) && user.myPantry.ingredientsNeeded.length > 0) {
-      console.log(user.myPantry.ingredientsNeeded)
     cardContent =
     `<section class="list-recipe-card" id="${currRecipe.id}">
       <img class="recipe-img" src="${currRecipe.image}"/>
@@ -331,7 +330,6 @@ const removeFromCookList = (targetBtn, likedRecipes, id) => {
 
 
 const makeModal = (recipe, container) => {
-  console.log('RETURN ID', recipe.id)
   const newModal = document.createElement('div');
   let checkModal = document.getElementById('modalContainer');
   if(checkModal !== null) {
@@ -368,20 +366,15 @@ const makeModal = (recipe, container) => {
     closeModalBtn = document.getElementById('closeModal');
     markCookedBtn = document.getElementById('markCooked');
     addClass(modalContainer, 'show')
-    // modalContainer.classList.add('show');
     closeModalBtn.addEventListener('click', function() {
-    // modalContainer.classList.remove('show');
     removeClass(modalContainer, 'show')
     });
     markCookedBtn.addEventListener('click', function() {
       myListContainer.childNodes.forEach(elem => {
         if(elem.id === recipe.id.toString()) {
-          console.log(elem)
           let secondChild = elem.children[2];
           addClass(secondChild.children[0], 'hidden')
-        // secondChild.children[0].classList.add('hidden')
         removeClass(secondChild.children[1], 'hidden')
-        // secondChild.children[1].classList.remove('hidden')
         }
       })
     removeFromPantry(user.id, recipe);
@@ -408,19 +401,15 @@ const makeModalMissing = (returnMsg, recipe) => {
   closeModalBtn = document.getElementById('closeModal');
   buyIngBtn = document.getElementById('buyIng');
   addClass(modalContainer, 'show')
-  // modalContainer.classList.add('show');
   closeModalBtn.addEventListener('click', function() {
   removeClass(modalContainer, 'show');
   });
   buyIngBtn.addEventListener('click', function() {
   myListContainer.childNodes.forEach(elem => {
     if(elem.id === recipe.id.toString()) {
-      console.log(elem)
       let secondChild = elem.children[2];
-    // secondChild.children[0].classList.remove('hidden')
     removeClass(secondChild.children[0], 'hidden');
     addClass(secondChild.children[1], 'hidden');
-    // secondChild.children[1].classList.add('hidden')
     }
   })
   buyIngredients(user.id, user.myPantry.ingredientsNeeded);
